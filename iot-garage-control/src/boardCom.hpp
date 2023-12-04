@@ -1,5 +1,14 @@
+#pragma once
+
+
 
 class BoardCom{
+public:
     BoardCom();
-    ~BoardCom() = default;
+
+    void update();
+private:
+    void init();
 };
+
+
