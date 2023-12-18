@@ -3,8 +3,8 @@
 #include "ESPAsyncWebServer.h"
 #include "SPIFFS.h"
 
-const char* ssid = "iPhone 12 Pro";
-const char* password = "1234gggg";
+const String SSID = "iPhone 12 Pro";
+const String PASSWORD = "1234gggg";
 
 AsyncWebServer server(80);
 // IPAddress local_IP(192, 168, 1, 184);
@@ -35,17 +35,16 @@ void initWiFi()
     // }
 
     Serial.println("Connecting to ");
-    Serial.println(ssid);
+    Serial.println(SSID);
  
-    WiFi.begin(ssid, password);
+    WiFi.begin(SSID, PASSWORD);
     while (WiFi.status() != WL_CONNECTED){}
 
     Serial.println("IP address: ");
     Serial.println(WiFi.localIP());
 
-    server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
-        request->send(SPIFFS, "/index.html", "text/html");
-    });
+    server.serveStatic("/", SPIFFS, "/").setDefaultFile("index.html");
+    server.serveStatic("/assets/", SPIFFS, "/");
 
     server.begin();
 }
