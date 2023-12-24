@@ -1,52 +1,63 @@
 #include "webserver.hpp"
-#include <WiFi.h>
-#include "ESPAsyncWebServer.h"
-#include "SPIFFS.h"
+#include "routes.hpp"
 
-const String SSID = "iPhone 12 Pro";
-const String PASSWORD = "1234gggg";
 
-AsyncWebServer server(80);
-// IPAddress local_IP(192, 168, 1, 184);
-// IPAddress gateway(172, 20, 10, 1);
-// IPAddress subnet(255, 255, 255, 240);
+// use defines for char array and String compability
+#define SSID                "iPhone 12 Pro"
+#define PASSWORD            "1234gggg"        // :') 
+#define MAIN_HTML           "index.html"
 
-void initWiFi()
+IPAddress gateway(172, 20, 10, 1);
+IPAddress subnet(255, 255, 255, 240);
+
+WebServer::WebServer(IPAddress serverIP, uint16_t serverPort) 
+{
+    ip = serverIP;
+    port = serverPort;
+
+    initSPIFFS();
+    initWifi();
+    initServer();
+}
+
+void WebServer::initSPIFFS()
+{
+    if(!SPIFFS.begin()){/* Serial.println("An Error has occurred while mounting SPIFFS"); */ return;}
+}
+
+void WebServer::initWifi()
 {   
-    if(!SPIFFS.begin()){
-        Serial.println("An Error has occurred while mounting SPIFFS");
-        return;
-    }
+    if (!WiFi.config(ip, gateway, subnet)) {Serial.println("WiFi Config failed");}
 
-    File file = SPIFFS.open("/index.html");
-    if(!file){
-        Serial.println("Failed to open file for reading");
-        return;
-    }
-    
-    Serial.println("File Content:");
-    while(file.available()){
-        Serial.write(file.read());
-    }
-    file.close();
-
-    // if (!WiFi.config(local_IP, gateway, subnet)) {
-    //     Serial.println("WiFi Config failed");
-    // }
-
-    Serial.println("Connecting to ");
-    Serial.println(SSID);
- 
+    Serial.println("Connecting...");
     WiFi.begin(SSID, PASSWORD);
     while (WiFi.status() != WL_CONNECTED){}
+    Serial.println("Connected");
+}
 
-    Serial.println("IP address: ");
-    Serial.println(WiFi.localIP());
+void WebServer::initServer()
+{
+    _server = new AsyncWebServer(port);
+}
 
-    server.serveStatic("/", SPIFFS, "/").setDefaultFile("index.html");
-    server.serveStatic("/assets/", SPIFFS, "/");
+void WebServer::serve(string uri, bool isDefault, string defaultFileName)
+{
+    AsyncStaticWebHandler* handler = new AsyncStaticWebHandler(uri.c_str(), SPIFFS, "/", NULL);
+    if (isDefault)
+    {
+        handler->setDefaultFile(defaultFileName.c_str());
+    }
+    _server->addHandler(handler);
+}
 
-    server.begin();
+void WebServer::on(string route, WebRequestMethod method, vRequestFunction func)
+{
+    _server->on((apiBaseURL + route).c_str(), method, func);
+}
+
+void WebServer::begin()
+{
+    _server->begin();
 }
 
 
