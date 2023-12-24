@@ -12,7 +12,7 @@ class WebServer
     public:
         WebServer(IPAddress serverIP, uint16_t serverPort);
         void serve(string uri, bool isDefault, string defaultFileName);
-        void on(string route, WebRequestMethod method, vRequestFunction func);   
+        void on(string route, vRequestFunction func);   
         void begin();
     
     private:

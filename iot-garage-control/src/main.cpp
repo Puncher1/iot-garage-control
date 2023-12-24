@@ -11,7 +11,11 @@ void initServer()
     server.serve("/", true, "index.html");
 
     // API
-    server.on("/auth", HTTP_GET, (vRequestFunction)Routes::auth);
+    server.on("/auth", Routes::auth);
+    server.on("/gate", Routes::gateControl);
+    server.on("/co2", Routes::co2Meas);
+    server.on("/air-meas", Routes::airMeas);
+    server.on("/air-control", Routes::airControl);
 
     server.begin();
 }

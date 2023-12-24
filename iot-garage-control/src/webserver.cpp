@@ -1,5 +1,5 @@
 #include "webserver.hpp"
-#include "routes.hpp"
+#include "api.hpp"
 
 
 // use defines for char array and String compability
@@ -38,6 +38,9 @@ void WebServer::initWifi()
 void WebServer::initServer()
 {
     _server = new AsyncWebServer(port);
+    _server->onNotFound([](AsyncWebServerRequest *request) {
+        request->send(404);
+    });
 }
 
 void WebServer::serve(string uri, bool isDefault, string defaultFileName)
@@ -50,9 +53,9 @@ void WebServer::serve(string uri, bool isDefault, string defaultFileName)
     _server->addHandler(handler);
 }
 
-void WebServer::on(string route, WebRequestMethod method, vRequestFunction func)
+void WebServer::on(string route, vRequestFunction func)
 {
-    _server->on((apiBaseURL + route).c_str(), method, func);
+    _server->on((apiBaseURL + route).c_str(), HTTP_ANY, func);
 }
 
 void WebServer::begin()
