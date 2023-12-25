@@ -1,16 +1,15 @@
 #include "webserver.hpp"
 #include "api.hpp"
 
-
 // use defines for char array and String compability
-#define SSID                "iPhone 12 Pro"
-#define PASSWORD            "1234gggg"        // :') 
-#define MAIN_HTML           "index.html"
+#define SSID            "iPhone 12 Pro"
+#define PASSWORD        "1234gggg"          // :')
+#define MAIN_HTML       "index.html"
 
 IPAddress gateway(172, 20, 10, 1);
 IPAddress subnet(255, 255, 255, 240);
 
-WebServer::WebServer(IPAddress serverIP, uint16_t serverPort) 
+WebServer::WebServer(IPAddress serverIP, uint16_t serverPort)
 {
     ip = serverIP;
     port = serverPort;
@@ -22,12 +21,19 @@ WebServer::WebServer(IPAddress serverIP, uint16_t serverPort)
 
 void WebServer::initSPIFFS()
 {
-    if(!SPIFFS.begin()){/* Serial.println("An Error has occurred while mounting SPIFFS"); */ return;}
+    if (!SPIFFS.begin())
+    { 
+        // Serial.println("An Error has occurred while mounting SPIFFS");
+        return;
+    }
 }
 
 void WebServer::initWifi()
-{   
-    if (!WiFi.config(ip, gateway, subnet)) {Serial.println("WiFi Config failed");}
+{
+    if (!WiFi.config(ip, gateway, subnet))
+    {
+        Serial.println("WiFi Config failed");
+    }
 
     Serial.println("Connecting...");
     WiFi.begin(SSID, PASSWORD);
@@ -38,14 +44,12 @@ void WebServer::initWifi()
 void WebServer::initServer()
 {
     _server = new AsyncWebServer(port);
-    _server->onNotFound([](AsyncWebServerRequest *request) {
-        request->send(404);
-    });
+    _server->onNotFound([](AsyncWebServerRequest *request) { request->send(404); });
 }
 
 void WebServer::serve(string uri, bool isDefault, string defaultFileName)
 {
-    AsyncStaticWebHandler* handler = new AsyncStaticWebHandler(uri.c_str(), SPIFFS, "/", NULL);
+    AsyncStaticWebHandler *handler = new AsyncStaticWebHandler(uri.c_str(), SPIFFS, "/", NULL);
     if (isDefault)
     {
         handler->setDefaultFile(defaultFileName.c_str());
@@ -62,5 +66,3 @@ void WebServer::begin()
 {
     _server->begin();
 }
-
-

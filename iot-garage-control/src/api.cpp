@@ -2,7 +2,7 @@
 #include "api.hpp"
 
 
-void Routes::auth(AsyncWebServerRequest* request)
+void Routes::auth(AsyncWebServerRequest *request)
 {
     /*
     GET Response:
@@ -12,8 +12,8 @@ void Routes::auth(AsyncWebServerRequest* request)
 
     if (request->method() == HTTP_GET)
     {
-        AsyncJsonResponse * response = new AsyncJsonResponse();
-        JsonVariant& root = response->getRoot();
+        AsyncJsonResponse *response = new AsyncJsonResponse();
+        JsonVariant &root = response->getRoot();
 
         root["lastLogin"] = "10.12.2023";   // TODO: maybe timestamp
         root["status"] = 0;
@@ -27,7 +27,7 @@ void Routes::auth(AsyncWebServerRequest* request)
     }
 }
 
-void Routes::gateControl(AsyncWebServerRequest* request)
+void Routes::gateControl(AsyncWebServerRequest *request)
 {
     /*
     GET Response:
@@ -38,8 +38,8 @@ void Routes::gateControl(AsyncWebServerRequest* request)
 
     if (request->method() == HTTP_GET)
     {
-        AsyncJsonResponse * response = new AsyncJsonResponse();
-        JsonVariant& root = response->getRoot();
+        AsyncJsonResponse *response = new AsyncJsonResponse();
+        JsonVariant &root = response->getRoot();
 
         root["status"] = 1;
 
@@ -50,14 +50,14 @@ void Routes::gateControl(AsyncWebServerRequest* request)
     {
         // TODO: Handle data + update state
         request->send(200);
-    }        
+    }
     else
     {
         request->send(405);     // Error 405: Not Allowed
     }
 }
 
-void Routes::co2Meas(AsyncWebServerRequest* request)
+void Routes::co2Meas(AsyncWebServerRequest *request)
 {
     /*
     GET Response:
@@ -66,8 +66,8 @@ void Routes::co2Meas(AsyncWebServerRequest* request)
 
     if (request->method() == HTTP_GET)
     {
-        AsyncJsonResponse * response = new AsyncJsonResponse();
-        JsonVariant& root = response->getRoot();
+        AsyncJsonResponse *response = new AsyncJsonResponse();
+        JsonVariant &root = response->getRoot();
 
         root["status"] = 0;
 
@@ -78,20 +78,19 @@ void Routes::co2Meas(AsyncWebServerRequest* request)
     {
         request->send(405);
     }
-
 }
 
-void Routes::airMeas(AsyncWebServerRequest* request)
+void Routes::airMeas(AsyncWebServerRequest *request)
 {
     /*
     GET Response:
         status:     0: Good, 1: Bad
-    */   
+    */
 
     if (request->method() == HTTP_GET)
     {
-        AsyncJsonResponse * response = new AsyncJsonResponse();
-        JsonVariant& root = response->getRoot();
+        AsyncJsonResponse *response = new AsyncJsonResponse();
+        JsonVariant &root = response->getRoot();
 
         root["status"] = 1;
 
@@ -104,7 +103,7 @@ void Routes::airMeas(AsyncWebServerRequest* request)
     }
 }
 
-void Routes::airControl(AsyncWebServerRequest* request)
+void Routes::airControl(AsyncWebServerRequest *request)
 {
     /*
     GET Response:
@@ -114,22 +113,22 @@ void Routes::airControl(AsyncWebServerRequest* request)
     */
     if (request->method() == HTTP_GET)
     {
-        AsyncJsonResponse * response = new AsyncJsonResponse();
-        JsonVariant& root = response->getRoot();
+        AsyncJsonResponse *response = new AsyncJsonResponse();
+        JsonVariant &root = response->getRoot();
 
         root["status"] = 3;
 
         response->setLength();
         request->send(response);
     }
-    
+
     else if (request->method() == HTTP_POST)
     {
         // TODO: Handle data + update state -> only allowed if manual control (air is ok)
         request->send(200);
-    }        
+    }
     else
     {
-        request->send(405);     // Error 405: Not Allowed
+        request->send(405); // Error 405: Not Allowed
     }
 }

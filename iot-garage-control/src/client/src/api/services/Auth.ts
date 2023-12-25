@@ -1,10 +1,9 @@
 import client from "./../client";
 
-
-function lastLogin() {
-    return client.get("auth/lastLogin");
+async function lastLogin() {
+    return await client.get("auth/lastLogin");
 }
 
-function status() {
-    return client.get("auth/status");
+async function status() {
+    return await client.get("auth/status");
 }

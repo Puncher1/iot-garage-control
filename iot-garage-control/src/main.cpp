@@ -24,10 +24,10 @@ void setup()
 {
     Serial.begin(9600);
 
-    initServer();    
+    initServer();
 }
 
-void loop() 
+void loop()
 {
     Serial.println("Hello world!");
     delay(1000);

@@ -1,8 +1,6 @@
-interface Rows {
-    [key: string]: string[]
-}
+type Rows = Record<string, string[]>
 
-export const recRows:Rows = {
+export const recRows: Rows = {
     "Authentifizierung": ["Letztes Login", "Status"],
     "Torsteuerung": ["Status"],
     "CO2-Messung": ["Status"],
@@ -10,7 +8,7 @@ export const recRows:Rows = {
     "Lüftungssteuerung": ["Status"],
 }
 
-export const transRows:Rows = {
+export const transRows: Rows = {
     "Torsteuerung": ["Status"],
     "Lüftungssteuerung": ["Status"],
 }
