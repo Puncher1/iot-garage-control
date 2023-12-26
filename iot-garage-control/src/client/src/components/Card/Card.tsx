@@ -1,28 +1,13 @@
-import { useState } from "react"
+import { ReactElement, useState } from "react"
 
-import { recRows } from "./rowsData"
 
-function RecContent({ title }: { title: string }) {
-  const rows = recRows[title].map((row) =>
-    <tr>
-      <th>{row}:</th>
-      <td>DATA_HERE</td>
-    </tr>
-  );
-
-  return (
-    <div className="overflow-x-auto">
-      <table className="table">
-        <tbody>
-          {rows}
-        </tbody>
-      </table>
-    </div>
-
-  );
+interface CardPropsType {
+  title: string
+  recContent?: ReactElement | null,
+  transContent?: ReactElement | null,
 }
 
-function Card({ title }: { title: string }) {
+function Card({ title, recContent, transContent }: CardPropsType) {
   const [state, setState] = useState(1);
 
   function handleTabs(value: number) {
@@ -37,13 +22,13 @@ function Card({ title }: { title: string }) {
           {/* Receive */}
           <a role="tab" className={`tab ${state === 1 ? "tab-active" : ""}`} onClick={() => { handleTabs(1) }}>Empfangen</a>
           <div role="tabpanel" className="tab-content rounded-box p-6 mt-3">
-            <RecContent title={title}></RecContent>
+            {recContent}
           </div>
 
           {/* Transmit */}
           <a role="tab" className={`tab ${state === 2 ? "tab-active" : ""}`} onClick={() => { handleTabs(2) }}>Senden</a>
           <div role="tabpanel" className="tab-content rounded-box p-6 mt-3">
-
+            {transContent}
           </div>
         </div>
       </div>
