@@ -1,17 +1,55 @@
-import { ReactElement, useState } from "react"
+import { useState } from "react"
 
+import { recData } from "./../../datamodel"
+import Auth from "./../../api/services/Auth"
+
+
+interface RecContentType {
+  title: string,
+}
+
+function RecContent({ title }: RecContentType) {
+  const { data: authData, isLoading: isLoadingAuth, error: errorAuth } = Auth.useData()
+
+  if (isLoadingAuth) return "Loading ..."
+  if (errorAuth) return `Error occurred: ${errorAuth.message}`
+
+  let data: any | undefined
+  if (title === "Authentifizierung") {
+    data = authData
+  }
+
+  let model = recData[title]
+  const rows = model["rows"].map((row, i) => {
+    const dataKey = model["dataKeys"][i];
+    return (
+      <tr key={dataKey}>
+        <th key={`${dataKey}_h`}>{row}</th>
+        <td key={`${dataKey}_d`}>{data[dataKey]}</td>
+      </tr>
+    )
+  })
+
+  return (
+    <div className="overflow-x-auto">
+      <table className="table">
+        <tbody>
+          {rows}
+        </tbody>
+      </table>
+    </div>
+  )
+}
 
 interface CardPropsType {
   title: string
-  recContent?: ReactElement | null,
-  transContent?: ReactElement | null,
 }
 
-function Card({ title, recContent, transContent }: CardPropsType) {
-  const [state, setState] = useState(1);
+function Card({ title }: CardPropsType) {
+  const [tab, setTab] = useState(1)
 
   function handleTabs(value: number) {
-    setState(value)
+    setTab(value)
   }
 
   return (
@@ -20,20 +58,19 @@ function Card({ title, recContent, transContent }: CardPropsType) {
         <h2 className="card-title">{title}</h2>
         <div role="tablist" className="tabs tabs-boxed">
           {/* Receive */}
-          <a role="tab" className={`tab ${state === 1 ? "tab-active" : ""}`} onClick={() => { handleTabs(1) }}>Empfangen</a>
+          <a role="tab" className={`tab ${tab === 1 ? "tab-active" : ""}`} onClick={() => { handleTabs(1) }}>Empfangen</a>
           <div role="tabpanel" className="tab-content rounded-box p-6 mt-3">
-            {recContent}
+            <RecContent title={title}></RecContent>
           </div>
 
           {/* Transmit */}
-          <a role="tab" className={`tab ${state === 2 ? "tab-active" : ""}`} onClick={() => { handleTabs(2) }}>Senden</a>
+          <a role="tab" className={`tab ${tab === 2 ? "tab-active" : ""}`} onClick={() => { handleTabs(2) }}>Senden</a>
           <div role="tabpanel" className="tab-content rounded-box p-6 mt-3">
-            {transContent}
           </div>
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 export default Card
