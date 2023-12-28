@@ -1,34 +1,43 @@
-#include <Arduino.h>
+#include "Arduino.h"
+
 #include "webserver.hpp"
 #include "api.hpp"
+#include "sse.hpp"
 
 
-void initServer()
+WebServer* server;
+uint16_t eventWait_cyc = 1000;  // in ms
+uint16_t eventWait_pv = 0;      // in ms
+
+void initWebserver()
 {
     IPAddress localIP(172, 20, 10, 2);
-    WebServer server = WebServer(localIP, 80);
+    server = new WebServer(localIP, 80);
     // Website serving
-    server.serve("/", true, "index.html");
-
+    server->serve("/", true, "index.html");
     // API
-    server.on("/auth", Routes::auth);
-    server.on("/gate", Routes::gateControl);
-    server.on("/co2", Routes::co2Meas);
-    server.on("/air-meas", Routes::airMeas);
-    server.on("/air-control", Routes::airControl);
+    server->on("/gate", Routes::gateControl);
+    server->on("/air", Routes::airControl);
+    // Server-Sent Events
+    server->sse("/data", SSEConnectEvent);
 
-    server.begin();
+    server->begin();
 }
 
 void setup()
 {
     Serial.begin(9600);
-
-    initServer();
+    initWebserver();
 }
 
 void loop()
 {
-    Serial.println("Hello world!");
-    delay(1000);
+    if (eventWait_pv >= eventWait_cyc) {
+        eventWait_pv = 0;
+        SSEHandler(server->events);
+    }
+    else {
+        eventWait_pv++;
+    }
+    delay(1);
 }

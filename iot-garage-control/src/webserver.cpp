@@ -44,7 +44,18 @@ void WebServer::initWifi()
 void WebServer::initServer()
 {
     _server = new AsyncWebServer(port);
-    _server->onNotFound([](AsyncWebServerRequest *request) { request->send(404); });
+    DefaultHeaders::Instance().addHeader("Access-Control-Allow-Origin", "*");
+    DefaultHeaders::Instance().addHeader("Access-Control-Allow-Methods", "GET, POST, PUT");
+    DefaultHeaders::Instance().addHeader("Access-Control-Allow-Headers", "Content-Type");
+
+    _server->onNotFound([](AsyncWebServerRequest *request) { 
+        if (request->method() == HTTP_OPTIONS) {
+            request->send(200);
+        } 
+        else {
+            request->send(404, "application/json", "{\"message\":\"Not found\"}");
+        }
+    });
 }
 
 void WebServer::serve(string uri, bool isDefault, string defaultFileName)
@@ -57,9 +68,15 @@ void WebServer::serve(string uri, bool isDefault, string defaultFileName)
     _server->addHandler(handler);
 }
 
-void WebServer::on(string route, vRequestFunction func)
+void WebServer::on(string route, vAPIRequestFunction func)
 {
     _server->on((apiBaseURL + route).c_str(), HTTP_ANY, func);
+}
+
+void WebServer::sse(string route, vSSEEventFunction onConnectFunc) {
+    events = new AsyncEventSource((apiBaseURL + route).c_str());
+    events->onConnect(onConnectFunc);
+    _server->addHandler(events);
 }
 
 void WebServer::begin()
