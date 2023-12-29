@@ -1,15 +1,15 @@
-interface RecContentType {
+export interface ReceiveTitleValuesType {
     rows: string[],
     dataHeadKey: string,
     dataKeys: string[],
 }
-type RecDataType = Record<string, RecContentType>
+type ReceiveDataType = Record<string, ReceiveTitleValuesType>
 
-export const recData: RecDataType = {
+export const recData: ReceiveDataType = {
     "Authentifizierung": {
         rows: ["Letztes Login", "Status"],
         dataHeadKey: "auth",
-        dataKeys: ["lastLogin", "status"],
+        dataKeys: ["last_login", "status"],
     },
     "Torsteuerung": {
         rows: ["Status"],

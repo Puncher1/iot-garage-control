@@ -1,8 +1,9 @@
 import ky from "ky"
+import { Server as ServerConst } from "../../utils/constants"
 
 
 const client = ky.extend({
-    prefixUrl: "http://172.20.10.2/api"
+    prefixUrl: ServerConst.apiBaseURL
 })
 
 const fetchAuth = async () => {

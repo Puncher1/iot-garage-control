@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { Server as ServerConst } from "../../utils/constants"
 
 
 export function useIotData(): Record<string, Record<string, any>> {
@@ -18,7 +19,7 @@ export function useIotData(): Record<string, Record<string, any>> {
             if (eventSource) {
                 eventSource.close()
             }
-            eventSource = new EventSource("http://172.20.10.2/sse/data")
+            eventSource = new EventSource(`${ServerConst.sseBaseURL}/data`)
 
             eventSource.addEventListener("message", (event) => {
                 eventTimeoutClear()
