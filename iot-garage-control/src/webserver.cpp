@@ -74,7 +74,7 @@ void WebServer::on(string route, vAPIRequestFunction func)
 }
 
 void WebServer::sse(string route, vSSEEventFunction onConnectFunc) {
-    events = new AsyncEventSource((apiBaseURL + route).c_str());
+    events = new AsyncEventSource((sseBaseURL + route).c_str());
     events->onConnect(onConnectFunc);
     _server->addHandler(events);
 }

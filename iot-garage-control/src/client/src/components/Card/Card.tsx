@@ -1,7 +1,7 @@
 import { useState } from "react"
 
+import { useIotData } from "./../../events/iotData"
 import { recData } from "./../../datamodel"
-import Auth from "./../../api/services/Auth"
 
 
 interface RecContentType {
@@ -9,14 +9,21 @@ interface RecContentType {
 }
 
 function RecContent({ title }: RecContentType) {
-  const { data: authData, isLoading: isLoadingAuth, error: errorAuth } = Auth.useData()
+  // const { data: authData, isLoading: isLoadingAuth, error: errorAuth } = Auth.useData()
 
-  if (isLoadingAuth) return "Loading ..."
-  if (errorAuth) return `Error occurred: ${errorAuth.message}`
+  // if (isLoadingAuth) return "Loading ..."
+  // if (errorAuth) return `Error occurred: ${errorAuth.message}`
 
+  const iotData = useIotData()
+
+  if (iotData === null || Object.keys(iotData).length == 0) {
+    return "Error: No data available"
+  }
+
+  let dataHeadKey = recData[title]["dataHeadKey"]
   let data: any | undefined
   if (title === "Authentifizierung") {
-    data = authData
+    data = iotData[dataHeadKey]
   }
 
   let model = recData[title]

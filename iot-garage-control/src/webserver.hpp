@@ -25,6 +25,8 @@ class WebServer
         void initServer();
 
         const string apiBaseURL = "/api";
+        const string sseBaseURL = "/sse";
+
         IPAddress ip;
         uint16_t port;
         AsyncWebServer *_server;
