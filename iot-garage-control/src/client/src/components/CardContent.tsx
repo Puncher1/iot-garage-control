@@ -1,7 +1,10 @@
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 
-import IOTDataContext from "./../contexts/iotDataContext"
+import { IOTDataContext, IOTDatatIsErrorContext } from "./../contexts/iotDataContext"
+import { IotDataObjectType } from "../utils/types"
 import { recData } from "../models/dataModels"
+
+import "../styles/CardContent.css"
 
 
 interface ReceiveContentType {
@@ -9,37 +12,40 @@ interface ReceiveContentType {
 }
 
 function ReceiveContent({ title }: ReceiveContentType) {
-  // const { data: authData, isLoading: isLoadingAuth, error: errorAuth } = Auth.useData()
+  const iotDataObj: IotDataObjectType = useContext(IOTDataContext)
+  const iotData = iotDataObj.iotData
+  const error = iotDataObj.error
+  const isLoading = iotData.isLoading
 
-  // if (isLoadingAuth) return "Loading ..."
-  // if (errorAuth) return `Error occurred: ${errorAuth.message}`
-
-  const iotData = useContext(IOTDataContext)
-
-  let isLoading = false
+  let isEmpty = false
   if (iotData === null || Object.keys(iotData).length == 0) {
-    isLoading = true
+    isEmpty = true
   }
 
   let dataHeadKey = recData[title]["dataHeadKey"]
-  let data: Record<string, any>
-  if (!isLoading) {
-    data = iotData[dataHeadKey]
-  }
-
   let model = recData[title]
   const rows = model["rows"].map((row, i) => {
-    const dataKey = model["dataKeys"][i];
+    const dataKey = model["dataKeys"][i]
+
+    let tdData: any
+    if (error) {
+      tdData = (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+        </svg>
+      )
+    }
+    else if (isLoading || isEmpty) {
+      tdData = <span className="loading loading-spinner loading-md"></span>
+    }
+    else {
+      tdData = iotData[dataHeadKey][dataKey]
+    }
+
     return (
       <tr key={dataKey}>
         <th key={`${dataKey}_h`}>{row}</th>
-        <td key={`${dataKey}_d`}>
-          {isLoading ? (
-            <span className="loading loading-spinner loading-md"></span>
-          ) : (
-            data[dataKey]
-          )}
-        </td>
+        <td key={`${dataKey}_d`}>{tdData}</td>
       </tr>
     )
   })

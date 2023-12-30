@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.error-tooltip {
+    @apply tooltip fixed;
+    /* top: 50%; */
+    /* left: 50%; */
+}

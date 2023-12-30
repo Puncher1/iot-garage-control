@@ -1,5 +1,9 @@
-import { createContext } from "react"
+import { Dispatch, createContext } from "react"
+import { IotDataObjectType } from "./../utils/types"
 
 
-const IOTDataContext = createContext<Record<string, any>>({})
-export default IOTDataContext
+export const IOTDataContext = createContext<IotDataObjectType>({
+    iotData: {},
+    error: null,
+    isLoading: true,
+})
