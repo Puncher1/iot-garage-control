@@ -1,4 +1,4 @@
-import { Dispatch, createContext } from "react"
+import { createContext } from "react"
 import { IotDataObjectType } from "./../utils/types"
 
 

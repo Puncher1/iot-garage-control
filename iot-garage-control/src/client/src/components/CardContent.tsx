@@ -1,6 +1,6 @@
-import { useContext, useEffect } from "react"
+import { useContext } from "react"
 
-import { IOTDataContext, IOTDatatIsErrorContext } from "./../contexts/iotDataContext"
+import { IOTDataContext } from "./../contexts/iotDataContext"
 import { IotDataObjectType } from "../utils/types"
 import { recData } from "../models/dataModels"
 
@@ -15,7 +15,7 @@ function ReceiveContent({ title }: ReceiveContentType) {
   const iotDataObj: IotDataObjectType = useContext(IOTDataContext)
   const iotData = iotDataObj.iotData
   const error = iotDataObj.error
-  const isLoading = iotData.isLoading
+  const isLoading = iotDataObj.isLoading
 
   let isEmpty = false
   if (iotData === null || Object.keys(iotData).length == 0) {

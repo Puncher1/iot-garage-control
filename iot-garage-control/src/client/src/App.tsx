@@ -1,5 +1,5 @@
 import { useIotData } from "./services/sse/main"
-import { IOTDataContext, IOTDatatIsErrorContext } from "./contexts/iotDataContext"
+import { IOTDataContext } from "./contexts/iotDataContext"
 import Card from "./components/Card"
 import ErrorBanner from "./components/ErrorBanner"
 
@@ -9,10 +9,9 @@ import "./styles/App.css"
 function App() {
   const IOTDataObject = useIotData()
   const isError = IOTDataObject.error ? true : false
-  console.log(`isError: ${isError}, error: ${IOTDataObject.error}`)
 
   return (
-    <>
+    <div>
       <div className="flex flex-col">
         <IOTDataContext.Provider value={IOTDataObject}>
           <div className="flex flex-row justify-evenly">
@@ -27,7 +26,7 @@ function App() {
         </IOTDataContext.Provider>
       </div >
       {isError && <ErrorBanner></ErrorBanner>}
-    </>
+    </div>
   )
 }
 

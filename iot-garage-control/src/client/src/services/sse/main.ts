@@ -15,35 +15,33 @@ export function useIotData(): IotDataObjectType {
 
         function eventReceived() {
             setError(null)
+            setIsLoading(false)
 
             clearTimeout(keepAliveTimer)
             keepAliveTimer = setTimeout(connect, 3 * 1000)
-            setIsLoading(false)
         }
 
         let eventSource: EventSource
         function connect() {
             if (eventSource) {
                 console.log("close")
-                eventSource.close()
                 setIsLoading(true)
+                eventSource.close()
             }
             eventSource = new EventSource(`${ServerConst.sseBaseURL}/data`)
 
             eventSource.addEventListener("message", (event) => {
                 eventReceived()
-                console.log(`Message: ${event.data}`)
             }, false)
 
             eventSource.addEventListener("data", (event) => {
                 eventReceived()
-                console.log(`data: ${event.data}`)
                 setIotData(JSON.parse(event.data))
             }, false)
 
             eventSource.onerror = (err) => {
-                console.log(err)
                 setError(err)
+                console.log(err)
             }
         }
         connect()
