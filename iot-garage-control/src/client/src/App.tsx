@@ -1,39 +1,53 @@
+import { useState } from "react"
+
 import { useIotData } from "./services/sse/main"
 import { IOTDataContext } from "./contexts/iotDataContext"
 import useOnlineStatus from "./hooks/useOnlineStatus"
 import Card from "./components/Card"
 import ErrorBanner from "./components/ErrorBanner"
+import { ErrorType } from "./utils/enums"
 
 import "./styles/App.css"
 
 
 interface errorBannerReturnType {
   isErrorBanner: boolean,
+  errorType: ErrorType | null,
   errorMessage: string
 }
 
 function errorBanner(isError: boolean, isOnline: boolean): errorBannerReturnType {
   let isErrorBanner = false
   let errorMessage = ""
+  let errorType = null
+
   if (!isOnline || isError) {
     isErrorBanner = true
     if (!isOnline) {
+      errorType = ErrorType.offline
       errorMessage = "You're offline! Make sure you have an internet connection."
     }
     else if (isError) {
+      errorType = ErrorType.unexpected
       errorMessage = "Error! Something went wrong, please try again."
     }
   }
 
-  return { isErrorBanner, errorMessage }
+  return { isErrorBanner, errorType, errorMessage }
 }
 
 
 function App() {
   const isOnline = useOnlineStatus()
-  const IOTDataObject = useIotData()
+  const [retry, setRetry] = useState(true)
+
+  const IOTDataObject = useIotData(retry, handleRetryState)
   const isError = IOTDataObject.error ? true : false
-  const { isErrorBanner, errorMessage } = errorBanner(isError, isOnline)
+  const { isErrorBanner, errorType, errorMessage } = errorBanner(isError, isOnline)
+
+  function handleRetryState(r: boolean) {
+    setRetry(r)
+  }
 
   return (
     <div>
@@ -50,7 +64,7 @@ function App() {
           </div>
         </IOTDataContext.Provider>
       </div >
-      {isErrorBanner && <ErrorBanner>{errorMessage}</ErrorBanner>}
+      {isErrorBanner && <ErrorBanner onRetry={handleRetryState} errorType={errorType}>{errorMessage}</ErrorBanner>}
     </div>
   )
 }

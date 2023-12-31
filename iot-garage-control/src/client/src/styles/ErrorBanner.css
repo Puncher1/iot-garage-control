@@ -9,3 +9,7 @@
     display: table;
     margin: auto auto;
 }
+
+.icon-retry {
+    @apply w-6 h-6;
+}
