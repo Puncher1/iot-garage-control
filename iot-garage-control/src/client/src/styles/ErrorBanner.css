@@ -1,5 +1,11 @@
 .error-banner {
-    @apply alert alert-error fixed bottom-0 w-3/12;
+    @apply alert alert-error fixed bottom-0;
+    width: 35%;
     left: 50%;
     transform: translate(-50%, -2rem);
+}
+
+.error-message {
+    display: table;
+    margin: auto auto;
 }

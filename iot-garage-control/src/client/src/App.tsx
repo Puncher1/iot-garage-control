@@ -1,14 +1,39 @@
 import { useIotData } from "./services/sse/main"
 import { IOTDataContext } from "./contexts/iotDataContext"
+import useOnlineStatus from "./hooks/useOnlineStatus"
 import Card from "./components/Card"
 import ErrorBanner from "./components/ErrorBanner"
 
 import "./styles/App.css"
 
 
+interface errorBannerReturnType {
+  isErrorBanner: boolean,
+  errorMessage: string
+}
+
+function errorBanner(isError: boolean, isOnline: boolean): errorBannerReturnType {
+  let isErrorBanner = false
+  let errorMessage = ""
+  if (!isOnline || isError) {
+    isErrorBanner = true
+    if (!isOnline) {
+      errorMessage = "You're offline! Make sure you have an internet connection."
+    }
+    else if (isError) {
+      errorMessage = "Error! Something went wrong, please try again."
+    }
+  }
+
+  return { isErrorBanner, errorMessage }
+}
+
+
 function App() {
+  const isOnline = useOnlineStatus()
   const IOTDataObject = useIotData()
   const isError = IOTDataObject.error ? true : false
+  const { isErrorBanner, errorMessage } = errorBanner(isError, isOnline)
 
   return (
     <div>
@@ -25,7 +50,7 @@ function App() {
           </div>
         </IOTDataContext.Provider>
       </div >
-      {isError && <ErrorBanner></ErrorBanner>}
+      {isErrorBanner && <ErrorBanner>{errorMessage}</ErrorBanner>}
     </div>
   )
 }
