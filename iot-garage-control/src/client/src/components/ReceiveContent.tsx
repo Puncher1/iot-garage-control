@@ -2,10 +2,8 @@ import { useContext } from "react"
 
 import { IOTDataContext } from "../contexts/iotDataContext"
 import { IotDataObjectType } from "../utils/types"
-import { recData } from "../models/dataModels"
+import { receiveData } from "../models/dataModels"
 import useOnlineStatus from "../hooks/useOnlineStatus"
-
-import "../styles/CardContent.css"
 
 
 interface ReceiveContentType {
@@ -24,8 +22,8 @@ function ReceiveContent({ title }: ReceiveContentType) {
     isEmpty = true
   }
 
-  let dataHeadKey = recData[title]["dataHeadKey"]
-  let model = recData[title]
+  let dataHeadKey = receiveData[title]["dataHeadKey"]
+  let model = receiveData[title]
   const rows = model["rows"].map((row, i) => {
     const dataKey = model["dataKeys"][i]
 
