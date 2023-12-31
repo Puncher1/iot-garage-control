@@ -3,9 +3,18 @@ export interface ReceiveTitleValuesType {
     dataHeadKey: string,
     dataKeys: string[],
 }
-type ReceiveDataType = Record<string, ReceiveTitleValuesType>
 
-export const recData: ReceiveDataType = {
+interface TransmitTitleValuesType {
+    rows: string[],
+    route: string,
+    paramKeys: string[],
+    options: string[][]
+}
+
+type ReceiveDataType = Record<string, ReceiveTitleValuesType>
+type TransmitDataType = Record<string, TransmitTitleValuesType>
+
+export const receiveData: ReceiveDataType = {
     "Authentifizierung": {
         rows: ["Letztes Login", "Status"],
         dataHeadKey: "auth",
@@ -27,19 +36,23 @@ export const recData: ReceiveDataType = {
         dataKeys: ["status"],
     },
     "Lüftungssteuerung": {
-        rows: ["Status"],
+        rows: ["Öffnung"],
         dataHeadKey: "air_control",
         dataKeys: ["status"],
     },
 }
 
-// export const transRows: DataType = {
-//     "Torsteuerung": {
-//         rows: ["Status"],
-//         route: "/gate"
-//     },
-//     "Lüftungssteuerung": {
-//         rows: ["Status"],
-//         route: "/air-control"
-//     },
-// }
+export const transmitData: TransmitDataType = {
+    "Torsteuerung": {
+        rows: ["Status"],
+        route: "/gate-control",
+        paramKeys: ["status"],
+        options: [["Öffnen", "Pausieren", "Schliessen"]]
+    },
+    "Lüftungssteuerung": {
+        rows: ["Öffnung"],
+        route: "/air-control",
+        paramKeys: ["status"],
+        options: [["0%", "25%", "50%", "75%", "100%"]]
+    },
+}
