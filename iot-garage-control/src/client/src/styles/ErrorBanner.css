@@ -1,5 +1,5 @@
 .error-banner {
-    @apply alert alert-error fixed bottom-0;
+    @apply alert alert-error fixed bottom-0 drop-shadow-lg;
     width: 35%;
     left: 50%;
     transform: translate(-50%, -2rem);
@@ -8,8 +8,4 @@
 .error-message {
     display: table;
     margin: auto auto;
-}
-
-.icon-retry {
-    @apply w-6 h-6;
 }
