@@ -29,7 +29,7 @@ function errorBanner(isError: boolean, isOnline: boolean): errorBannerReturnType
     }
     else if (isError) {
       errorType = ErrorType.unexpected
-      errorMessage = "Error! Something went wrong, please try again."
+      errorMessage = "Something went wrong while receiving data, please try again."
     }
   }
 
