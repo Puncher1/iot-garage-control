@@ -1,8 +1,15 @@
 .error-banner {
     @apply alert alert-error fixed bottom-0 drop-shadow-lg;
-    width: 35%;
     left: 50%;
     transform: translate(-50%, -2rem);
+}
+
+.error-banner-offline {
+    width: 36%;
+}
+
+.error-banner-unexpected {
+    width: 32%;
 }
 
 .error-message {
