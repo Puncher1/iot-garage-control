@@ -1,6 +1,7 @@
 .error-banner {
     @apply alert alert-error fixed bottom-0 drop-shadow-lg;
     left: 50%;
+    width: 36%;
     transform: translate(-50%, -2rem);
 }
 

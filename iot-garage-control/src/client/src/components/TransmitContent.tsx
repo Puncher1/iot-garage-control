@@ -19,7 +19,7 @@ function TransmitContent({ title }: TransmitContentType) {
 
   async function handleRequest(o: any) {
     let isError: boolean = await requestFunc(option)
-    
+
   }
 
   const rows = model["rows"].map((row, i) => {

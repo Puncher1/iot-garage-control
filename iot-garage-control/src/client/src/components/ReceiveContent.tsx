@@ -1,9 +1,8 @@
-import { useContext } from "react"
-
-import { IOTDataContext } from "../contexts/iotDataContext"
-import { IotDataObjectType } from "../utils/types"
+import { IOTDataObjectType } from "../utils/types"
 import { receiveData } from "../models/dataModels"
 import useOnlineStatus from "../hooks/useOnlineStatus"
+import useIOTContext from "../hooks/useIOTContext"
+import useError from "../hooks/useError"
 
 
 interface ReceiveContentType {
@@ -12,10 +11,10 @@ interface ReceiveContentType {
 
 function ReceiveContent({ title }: ReceiveContentType) {
   const isOnline = useOnlineStatus()
-  const iotDataObj: IotDataObjectType = useContext(IOTDataContext)
-  const iotData = iotDataObj.iotData
-  const error = iotDataObj.error
+  const iotDataObj: IOTDataObjectType = useIOTContext()
+  const iotData = iotDataObj.data
   const isLoading = iotDataObj.isLoading
+  const { error } = useError()
 
   let isEmpty = false
   if (iotData === null || Object.keys(iotData).length == 0) {

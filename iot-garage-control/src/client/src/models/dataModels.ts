@@ -1,5 +1,5 @@
 import { GateControlOption, AirControlOption } from "../utils/enums"
-import { editGateControl } from "../services/api/client"
+import { editGateControl, editAirControl } from "../services/api/client"
 
 
 export interface ReceiveTitleValuesType {
@@ -63,6 +63,6 @@ export const transmitData: TransmitDataType = {
         paramKeys: ["status"],
         options: [["0%", "25%", "50%", "75%", "100%"]],
         enum: AirControlOption,
-        requestFunc: ,
+        requestFunc: editAirControl,
     },
 }

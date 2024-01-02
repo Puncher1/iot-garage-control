@@ -1,9 +1,10 @@
 import { createContext } from "react"
-import { IotDataObjectType } from "./../utils/types"
+import { IOTDataObjectType } from "./../utils/types"
 
 
-export const IOTDataContext = createContext<IotDataObjectType>({
-    iotData: {},
-    error: null,
-    isLoading: true,
+const IOTDataContext = createContext<IOTDataObjectType>({
+    data: {},
+    isLoading: true
 })
+
+export default IOTDataContext

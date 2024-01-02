@@ -1,25 +1,32 @@
 import { useEffect, useState } from "react"
 
-import { IotDataObjectType } from "./../../utils/types"
+import { IOTDataObjectType } from "./../../utils/types"
 import { Server as ServerConst } from "../../utils/constants"
+import useError from "../../hooks/useError"
+import { ErrorMessages } from "../../utils/constants"
+import { ErrorType } from "../../utils/enums"
+import useRetryState from "../../hooks/useRetryState"
 
 
-export function useIotData(isRetry: boolean, setRetryState: Function): IotDataObjectType {
-    const [iotData, setIotData] = useState({})
-    const [error, setError] = useState<Event | null>(null)
+const errorMsg = ErrorMessages.connection
+
+export function useIotData(): IOTDataObjectType {
+    const [data, setData] = useState({})
     const [isLoading, setIsLoading] = useState(false)
+    const { retry, setRetry } = useRetryState()
+    const { setError, removeError } = useError()
 
     let keepAliveTimer: number | undefined;
     let eventSource: EventSource
 
     function reconnect() {
         console.log("reconnect")
-        setError(null)
+        removeError()
         connect()
     }
 
     function eventReceived() {
-        setError(null)
+        removeError()
         setIsLoading(false)
 
         clearTimeout(keepAliveTimer)
@@ -44,24 +51,24 @@ export function useIotData(isRetry: boolean, setRetryState: Function): IotDataOb
 
         eventSource.addEventListener("data", (event) => {
             eventReceived()
-            setIotData(JSON.parse(event.data))
+            setData(JSON.parse(event.data))
         }, false)
 
         eventSource.onerror = (err) => {
-            setError(err)
+            setError(errorMsg, ErrorType.receiving)
             console.log(err)
             close()
         }
     }
 
     useEffect(() => {
-        if (isRetry) {
-            setRetryState(false)
+        if (retry) {
+            setRetry(false)
             window.addEventListener("online", reconnect)
             reconnect()
         }
         return () => { window.removeEventListener }
-    }, [isRetry])
+    }, [retry])
 
-    return { iotData, error, isLoading }
+    return { data, isLoading }
 }
