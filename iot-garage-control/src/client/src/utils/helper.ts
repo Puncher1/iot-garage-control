@@ -22,8 +22,8 @@ export function errorBanner(isError: boolean, isOnline: boolean): errorBannerRet
             bannerSizeClass = "error-banner-offline"
         }
         else if (isError) {
-            errorType = ErrorType.unexpected
-            errorMessage = "Something went wrong, please try again."
+            errorType = ErrorType.receiving
+            errorMessage = "Connection to server lost, please try again."
             bannerSizeClass = "error-banner-unexpected"
         }
     }
