@@ -16,8 +16,8 @@ void initWebserver()
     // Website serving
     server->serve("/", true, "index.html");
     // API
-    server->on("/gate-control", Routes::gateControl);
-    server->on("/air-control", Routes::airControl);
+    server->on("/gate-control", HTTP_POST, Routes::gateControl);
+    server->on("/air-control", HTTP_POST, Routes::airControl);
     // Server-Sent Events
     server->sse("/data", SSEConnectEvent);
 

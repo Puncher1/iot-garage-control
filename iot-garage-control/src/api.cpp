@@ -26,47 +26,39 @@ void Routes::gateControl(AsyncWebServerRequest *request)
         status:     0: Successful, 1: Paused, 2: Closed
     */
 
-    if (request->method() == HTTP_POST)
-    {   
-        if (request->hasParam("status", true))
+    if (request->hasParam("status", true))
+    {
+        int params = request->params();
+        for (int i = 0; i < params; i++)
         {
-            int params = request->params();
-            for (int i = 0; i < params; i++)
+            AsyncWebParameter* p = request->getParam(i);
+            if (p->name() == "status") 
             {
-                AsyncWebParameter* p = request->getParam(i);
-                if (p->name() == "status") 
+                boolean isOK = handleGateStatus(p->value());
+                if (isOK)
                 {
-                    boolean isOK = handleGateStatus(p->value());
-                    if (isOK)
-                    {
-                        request->send(200);     // OK
-                        return;
-                    }
-                    else
-                    {
-                        request->send(400, "text/plain", "'status' must be one of 0, 1, 2");     // Bad Request
-                        return;
-                    }
+                    request->send(200);     // OK
+                    return;
                 }
-
+                else
+                {
+                    request->send(400, "application/json", "{\"message\":\"'status' must be one of 0, 1, 2\"}");     // Bad Request
+                    return;
+                }
             }
-            request->send(500);     // Internal Server Error
-            return;
-        }
-        else
-        {
-            request->send(400, "text/plain", "'status' is a required parameter that is missing");     // Bad Request
-            return;
-        }
 
+        }
         request->send(500);     // Internal Server Error
         return;
     }
     else
     {
-        request->send(405);     // Not Allowed
+        request->send(400, "application/json", "{\"message\":\"'status' is a required parameter that is missing\"}");     // Bad Request
         return;
     }
+
+    request->send(500);     // Internal Server Error
+    return;
 }
 
 void Routes::airControl(AsyncWebServerRequest *request)
@@ -75,45 +67,36 @@ void Routes::airControl(AsyncWebServerRequest *request)
     POST Params:
         status:     0: 0%, 1: 25%, 2: 50%, 3: 75%, 4: 100%
     */
-    if (request->method() == HTTP_POST)
-    {   
-        if (request->hasParam("status", true))
+    if (request->hasParam("status", true))
+    {
+        int params = request->params();
+        for (int i = 0; i < params; i++)
         {
-            int params = request->params();
-            for (int i = 0; i < params; i++)
+            AsyncWebParameter* p = request->getParam(i);
+            if (p->name() == "status") 
             {
-                AsyncWebParameter* p = request->getParam(i);
-                if (p->name() == "status") 
+                boolean isOK = handleAirStatus(p->value());
+                if (isOK)
                 {
-                    boolean isOK = handleAirStatus(p->value());
-                    if (isOK)
-                    {
-                        request->send(200);     // OK
-                        return;
-                    }
-                    else
-                    {
-                        request->send(400, "text/plain", "'status' must be one of 0, 1, 2, 3, 4");     // Bad Request
-                        return;
-                    }
+                    request->send(200);     // OK
+                    return;
                 }
-
+                else
+                {
+                    request->send(400, "application/json", "{\"message\":\"'status' must be one of 0, 1, 2, 3, 4\"}");     // Bad Request
+                    return;
+                }
             }
-            request->send(500);     // Internal Server Error
-            return;
-        }
-        else
-        {
-            request->send(400, "text/plain", "'status' is a required parameter that is missing");     // Bad Request
-            return;
-        }
 
+        }
         request->send(500);     // Internal Server Error
         return;
     }
     else
     {
-        request->send(405);     // Not Allowed
+        request->send(400, "application/json", "{\"message\":\"'status' is a required parameter that is missing\"}");     // Bad Request
         return;
     }
+
+    request->send(500);     // Internal Server Error
 }

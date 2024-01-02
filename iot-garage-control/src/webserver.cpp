@@ -48,11 +48,14 @@ void WebServer::initServer()
     DefaultHeaders::Instance().addHeader("Access-Control-Allow-Methods", "GET, POST, PUT");
     DefaultHeaders::Instance().addHeader("Access-Control-Allow-Headers", "Content-Type");
 
-    _server->onNotFound([](AsyncWebServerRequest *request) { 
-        if (request->method() == HTTP_OPTIONS) {
+    _server->onNotFound([](AsyncWebServerRequest *request) 
+    { 
+        if (request->method() == HTTP_OPTIONS) 
+        {
             request->send(200);
         } 
-        else {
+        else 
+        {
             request->send(404, "application/json", "{\"message\":\"Not found\"}");
         }
     });
@@ -68,12 +71,13 @@ void WebServer::serve(string uri, bool isDefault, string defaultFileName)
     _server->addHandler(handler);
 }
 
-void WebServer::on(string route, vAPIRequestFunction func)
+void WebServer::on(string route, WebRequestMethod method, vAPIRequestFunction func)
 {
-    _server->on((apiBaseURL + route).c_str(), HTTP_ANY, func);
+    _server->on((apiBaseURL + route).c_str(), method, func);
 }
 
-void WebServer::sse(string route, vSSEEventFunction onConnectFunc) {
+void WebServer::sse(string route, vSSEEventFunction onConnectFunc) 
+{
     events = new AsyncEventSource((sseBaseURL + route).c_str());
     events->onConnect(onConnectFunc);
     _server->addHandler(events);
