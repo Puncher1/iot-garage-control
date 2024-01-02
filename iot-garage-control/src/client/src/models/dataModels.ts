@@ -1,3 +1,7 @@
+import { GateControlOption, AirControlOption } from "../utils/enums"
+import { editGateControl } from "../services/api/client"
+
+
 export interface ReceiveTitleValuesType {
     rows: string[],
     dataHeadKey: string,
@@ -8,7 +12,9 @@ interface TransmitTitleValuesType {
     rows: string[],
     route: string,
     paramKeys: string[],
-    options: string[][]
+    options: string[][],
+    enum: any,
+    requestFunc: (_: any) => Promise<boolean>,
 }
 
 type ReceiveDataType = Record<string, ReceiveTitleValuesType>
@@ -47,12 +53,16 @@ export const transmitData: TransmitDataType = {
         rows: ["Status"],
         route: "/gate-control",
         paramKeys: ["status"],
-        options: [["Öffnen", "Pausieren", "Schliessen"]]
+        options: [["Öffnen", "Pausieren", "Schliessen"]],
+        enum: GateControlOption,
+        requestFunc: editGateControl,
     },
     "Lüftungssteuerung": {
         rows: ["Öffnung"],
         route: "/air-control",
         paramKeys: ["status"],
-        options: [["0%", "25%", "50%", "75%", "100%"]]
+        options: [["0%", "25%", "50%", "75%", "100%"]],
+        enum: AirControlOption,
+        requestFunc: ,
     },
 }
