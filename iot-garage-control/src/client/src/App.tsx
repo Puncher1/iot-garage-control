@@ -15,7 +15,7 @@ function App() {
   const [retry, setRetry] = useState(true)
 
   const IOTDataObject = useIotData(retry, handleRetryState)
-  const isError = IOTDataObject.error ? true : false
+  const isError = !!IOTDataObject.error
   const { isErrorBanner, errorType, errorMessage, bannerSizeClass } = errorBanner(isError, isOnline)
 
   function handleRetryState(r: boolean) {
