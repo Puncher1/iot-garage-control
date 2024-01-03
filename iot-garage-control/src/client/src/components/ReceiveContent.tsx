@@ -3,6 +3,7 @@ import { receiveData } from "../models/dataModels"
 import useOnlineStatus from "../hooks/useOnlineStatus"
 import useIOTContext from "../hooks/useIOTContext"
 import useError from "../hooks/useErrorContext"
+import SvgExclamationCircle from "../assets/exclamation-circle.svg?react"
 
 
 interface ReceiveContentType {
@@ -29,13 +30,11 @@ function ReceiveContent({ title }: ReceiveContentType) {
     let tdData: any
     if (error || !isOnline) {
       tdData = (
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
-        </svg>
+        <SvgExclamationCircle className="text-error w-6 h-6" />
       )
     }
     else if (isLoading || isEmpty) {
-      tdData = <span className="loading loading-spinner loading-md"></span>
+      tdData = <span className="loading loading-spinner loading-md text-info"></span>
     }
     else {
       tdData = iotData[dataHeadKey][dataKey]

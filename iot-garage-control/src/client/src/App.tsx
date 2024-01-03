@@ -1,6 +1,5 @@
-import { useState } from "react"
+/// <reference types="vite-plugin-svgr/client" />
 
-import useOnlineStatus from "./hooks/useOnlineStatus"
 import Card from "./components/Card"
 import ErrorBanner from "./components/ErrorBanner"
 
