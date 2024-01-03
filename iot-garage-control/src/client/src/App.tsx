@@ -12,17 +12,17 @@ function App() {
       <div className="flex flex-col">
         <div>
           <div className="flex flex-row justify-evenly">
-            <Card title="Authentifizierung"></Card>
-            <Card title="Torsteuerung"></Card>
-            <Card title="CO2-Messung"></Card>
+            <Card title="Authentifizierung" />
+            <Card title="Torsteuerung" />
+            <Card title="CO2-Messung" />
           </div>
           <div className="flex flex-row justify-evenly">
-            <Card title="Luftqualitätsmessung"></Card>
-            <Card title="Lüftungssteuerung"></Card>
+            <Card title="Luftqualitätsmessung" />
+            <Card title="Lüftungssteuerung" />
           </div>
         </div>
       </div >
-      <ErrorBanner></ErrorBanner>
+      <ErrorBanner />
     </div>
   )
 }
