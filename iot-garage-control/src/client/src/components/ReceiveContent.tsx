@@ -13,9 +13,7 @@ interface ReceiveContentType {
 
 function ReceiveContent({ title }: ReceiveContentType) {
   const isOnline = useOnlineStatus()
-  const iotDataObj: IOTDataObjectType = useIOTContext()
-  const iotData = iotDataObj.data
-  const isLoading = iotDataObj.isLoading
+  const { data: iotData, isLoading } = useIOTContext()
   const { error } = useError()
 
   let isEmpty = false
