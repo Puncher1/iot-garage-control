@@ -1,4 +1,4 @@
-import axios, { AxiosResponse, AxiosError } from "axios"
+import axios, { AxiosResponse } from "axios"
 
 import { Server as ServerConst } from "../../utils/constants"
 import { AirControlOption, GateControlOption } from "../../utils/enums"
