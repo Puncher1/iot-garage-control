@@ -43,8 +43,8 @@ function ReceiveContent({ title }: ReceiveContentType) {
 
     return (
       <tr key={dataKey}>
-        <th key={`${dataKey}_h`}>{row}</th>
-        <td key={`${dataKey}_d`}>{tdData}</td>
+        <th key={`${dataKey}-h`}>{row}</th>
+        <td key={`${dataKey}-d`}>{tdData}</td>
       </tr>
     )
   })
