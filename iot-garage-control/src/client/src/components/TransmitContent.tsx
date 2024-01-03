@@ -1,7 +1,10 @@
-import { ChangeEventHandler, useState } from "react"
+import { useCallback, useState } from "react"
 
 import { transmitData } from "../models/dataModels"
-import { editGateControl } from "../services/api/client"
+import useErrorContext from "../hooks/useErrorContext"
+import { ErrorMessages } from "../utils/constants"
+import { ErrorType } from "../utils/enums"
+import { stringFormat } from "../utils/helper.ts"
 
 import "../styles/TransmitContent.css"
 
@@ -16,11 +19,14 @@ function TransmitContent({ title }: TransmitContentType) {
   const requestFunc = model["requestFunc"]
 
   const [option, setOption] = useState(enumType[0])
+  const { setError } = useErrorContext()
 
-  async function handleRequest(o: any) {
+  const handleRequest = useCallback(async (o: any) => {
     let isError: boolean = await requestFunc(option)
-
-  }
+    if (isError) {
+      setError(stringFormat(ErrorMessages.sending, `'${title}'`), ErrorType.sending)
+    }
+  }, [])
 
   const rows = model["rows"].map((row, i) => {
     const options = model["options"][i]

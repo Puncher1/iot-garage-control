@@ -55,7 +55,7 @@ export function useIotData(): IOTDataObjectType {
         }, false)
 
         eventSource.onerror = (err) => {
-            setError(errorMsg, ErrorType.receiving)
+            setError(errorMsg, ErrorType.connection)
             console.log(err)
             close()
         }

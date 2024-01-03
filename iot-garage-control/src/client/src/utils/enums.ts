@@ -1,6 +1,7 @@
 export enum ErrorType {
     offline = 0,
-    receiving = 1,
+    connection = 1,
+    sending = 2,
 }
 
 export enum GateControlOption {

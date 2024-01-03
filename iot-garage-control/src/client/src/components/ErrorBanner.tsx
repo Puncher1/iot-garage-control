@@ -28,7 +28,7 @@ export default function ErrorBanner() {
 
   if (error) {
     let btnExtra = null
-    if (error.type == ErrorType.receiving) {
+    if (error.type == ErrorType.connection) {
       btnExtra = <button className="btn btn-xs sm:btn-sm" onClick={() => { console.log("onClick"); setRetry() }}>Retry</button>
     }
 

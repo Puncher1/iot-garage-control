@@ -16,7 +16,7 @@ async function request(method: string, url: string, data: Record<string, any>, h
     try {
         response = await client.request(config)
     } catch (err: any) {
-        console.log(err.response.data["message"])
+        console.log(err.response ? err.response.data["message"] : err)
         isError = true
     }
 
