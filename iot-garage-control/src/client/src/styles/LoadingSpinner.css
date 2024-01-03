@@ -1,0 +1,5 @@
+.span-spinner { 
+    @apply loading loading-spinner loading-md text-info;
+    display: block;
+    margin: auto;
+}

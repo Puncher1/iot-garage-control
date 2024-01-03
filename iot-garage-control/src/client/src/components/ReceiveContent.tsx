@@ -4,6 +4,7 @@ import useOnlineStatus from "../hooks/useOnlineStatus"
 import useIOTContext from "../hooks/useIOTContext"
 import useError from "../hooks/useErrorContext"
 import SvgExclamationCircle from "../assets/exclamation-circle.svg?react"
+import LoadingSpinner from "../components/LoadingSpinner"
 
 
 interface ReceiveContentType {
@@ -34,7 +35,7 @@ function ReceiveContent({ title }: ReceiveContentType) {
       )
     }
     else if (isLoading || isEmpty) {
-      tdData = <span className="loading loading-spinner loading-md text-info"></span>
+      tdData = <LoadingSpinner />
     }
     else {
       tdData = iotData[dataHeadKey][dataKey]
