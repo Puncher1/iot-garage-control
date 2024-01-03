@@ -1,0 +1,14 @@
+# TODO
+### Client
+**TransmitContent**
+* [ ] Disable send btn, when server connection is pending (loading)
+* [ ] Replace send btn with loading icon, when sending
+* [ ] Success banner
+
+**ErrorBanner**
+* [ ] X icon to close sending error
+* [ ] When sending error: Hide after x seconds
+
+**SuccessBanner**
+* [ ] X icon to close success
+* [ ] Hide after x seconds
