@@ -1,7 +1,6 @@
 import axios, { AxiosResponse } from "axios"
 
 import { Server as ServerConst } from "../utils/constants"
-import { AirControlOption, GateControlOption } from "../utils/enums"
 
 
 const client = axios.create({
@@ -29,14 +28,14 @@ async function request(method: string, url: string, data: Record<string, any>, h
     return isError
 }
 
-export async function editGateControl(status: GateControlOption): Promise<boolean> {
-    const params = { "status": GateControlOption[status] }
+export async function editGateControl(status: number): Promise<boolean> {
+    const params = { "status": status }
     const headers = { "Content-Type": "application/x-www-form-urlencoded" }
     return await request("POST", "/gate-control", params, headers)
 }
 
-export async function editAirControl(status: AirControlOption): Promise<boolean> {
-    const params = { "status": AirControlOption[status] }
+export async function editAirControl(status: number): Promise<boolean> {
+    const params = { "status": status }
     const headers = { "Content-Type": "application/x-www-form-urlencoded" }
     return await request("POST", "/air-control", params, headers)
 }

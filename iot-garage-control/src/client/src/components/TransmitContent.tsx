@@ -18,19 +18,19 @@ interface TransmitContentType {
 
 function TransmitContent({ title }: TransmitContentType) {
   const model = transmitData[title]
-  const enumType = model["enum"]
   const requestFunc = model["requestFunc"]
 
-  const [option, setOption] = useState(enumType[0])
+  const [option, setOption] = useState(0)
   const [spinner, setSpinner] = useState(false)
   const { isLoading: isReceivingLoading } = useIOTContext()
   const { error, setError } = useErrorContext()
 
-  const handleRequest = useCallback(async (o: string) => {
+  const handleRequest = useCallback(async (o: number) => {
     setSpinner(true)
     await requestFunc(o)
       .then((isError: boolean) => {
         setSpinner(false)
+
         if (isError) {
           setError(stringFormat(ErrorMessages.sending, `'${title}'`), ErrorType.sending)
         }
@@ -48,11 +48,11 @@ function TransmitContent({ title }: TransmitContentType) {
           <select
             className="select select-bordered w-full max-w-xs"
             value={option}
-            onChange={(e) => { setOption(e.target.value) }}
+            onChange={(e) => { setOption(+e.target.value) }}
           >
             {
               options.map((optionText, i) => (
-                <option key={`${uniqueKeyPrefix}-d-${i}`} value={enumType[i]}>{optionText}</option>
+                <option key={`${uniqueKeyPrefix}-d-${i}`} value={i}>{optionText}</option>
               ))
             }
           </select>
