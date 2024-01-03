@@ -1,4 +1,3 @@
-import { GateControlOption, AirControlOption } from "../utils/enums"
 import { editGateControl, editAirControl } from "../services/api"
 
 
@@ -6,6 +5,7 @@ export interface ReceiveTitleValuesType {
     rows: string[],
     dataHeadKey: string,
     dataKeys: string[],
+    dataMap: Record<string, Record<number, string>>
 }
 
 interface TransmitTitleValuesType {
@@ -13,7 +13,6 @@ interface TransmitTitleValuesType {
     route: string,
     paramKeys: string[],
     options: string[][],
-    enum: any,
     requestFunc: (_: any) => Promise<boolean>,
 }
 
@@ -25,26 +24,60 @@ export const receiveData: ReceiveDataType = {
         rows: ["Letztes Login", "Status"],
         dataHeadKey: "auth",
         dataKeys: ["last_login", "status"],
+        dataMap: {
+            "status": {
+                0: "Erfolgreich",
+                1: "Fehlgeschlagen"
+            }
+        }
     },
     "Torsteuerung": {
         rows: ["Status"],
         dataHeadKey: "gate_control",
         dataKeys: ["status"],
+        dataMap: {
+            "status": {
+                0: "Geöffnet",
+                1: "Pausiert",
+                2: "Geschlossen"
+            }
+        }
     },
     "CO2-Messung": {
         rows: ["Status"],
         dataHeadKey: "co2_meas",
         dataKeys: ["status"],
+        dataMap: {
+            "status": {
+                0: "OK",
+                1: "Schlecht"
+            }
+        }
     },
     "Luftqualitätsmessung": {
         rows: ["Status"],
         dataHeadKey: "air_meas",
         dataKeys: ["status"],
+        dataMap: {
+            "status": {
+                0: "OK",
+                1: "Schlecht"
+            }
+        }
     },
     "Lüftungssteuerung": {
         rows: ["Öffnung"],
         dataHeadKey: "air_control",
         dataKeys: ["status"],
+        dataMap: {
+            "status": {
+                0: "0%",
+                1: "25%",
+                2: "50%",
+                3: "75%",
+                4: "100%"
+            }
+        }
     },
 }
 
@@ -54,7 +87,6 @@ export const transmitData: TransmitDataType = {
         route: "/gate-control",
         paramKeys: ["status"],
         options: [["Öffnen", "Pausieren", "Schliessen"]],
-        enum: GateControlOption,
         requestFunc: editGateControl,
     },
     "Lüftungssteuerung": {
@@ -62,7 +94,6 @@ export const transmitData: TransmitDataType = {
         route: "/air-control",
         paramKeys: ["status"],
         options: [["0%", "25%", "50%", "75%", "100%"]],
-        enum: AirControlOption,
         requestFunc: editAirControl,
     },
 }

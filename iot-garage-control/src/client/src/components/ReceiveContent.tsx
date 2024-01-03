@@ -24,6 +24,10 @@ function ReceiveContent({ title }: ReceiveContentType) {
   let model = receiveData[title]
   const rows = model["rows"].map((row, i) => {
     const dataKey = model["dataKeys"][i]
+    let dataMap = null
+    if (dataKey in model["dataMap"]) {
+      dataMap = model["dataMap"][dataKey]
+    }
 
     let tdData: any
     if (error || !isOnline) {
@@ -35,7 +39,12 @@ function ReceiveContent({ title }: ReceiveContentType) {
       tdData = <LoadingSpinner />
     }
     else {
-      tdData = iotData[dataHeadKey][dataKey]
+      if (dataMap) {
+        tdData = dataMap[iotData[dataHeadKey][dataKey]]
+      }
+      else {
+        tdData = iotData[dataHeadKey][dataKey]
+      }
     }
 
     return (
