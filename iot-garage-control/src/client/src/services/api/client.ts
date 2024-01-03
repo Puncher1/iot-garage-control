@@ -30,6 +30,7 @@ async function request(method: string, url: string, data: Record<string, any>, h
 }
 
 export async function editGateControl(status: GateControlOption): Promise<boolean> {
+    console.log(`status: ${typeof (status)} ${status}`)
     const params = { "status": GateControlOption[status] }
     const headers = { "Content-Type": "application/x-www-form-urlencoded" }
     return await request("POST", "/gate-control", params, headers)

@@ -1,8 +1,8 @@
 # TODO
 ### Client
 **TransmitContent**
-* [ ] Disable send btn, when server connection is pending (loading)
-* [ ] Replace send btn with loading icon, when sending
+* [x] Disable send btn, when server connection is pending (loading)
+* [x] Replace send btn with loading icon, when sending
 * [ ] Success banner
 
 **ErrorBanner**

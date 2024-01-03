@@ -6,6 +6,8 @@ import { ErrorMessages } from "../utils/constants"
 import { ErrorType } from "../utils/enums"
 import { stringFormat } from "../utils/helper.ts"
 import SvgPaperAirplane from "../assets/paper-airline.svg?react"
+import LoadingSpinner from "./LoadingSpinner.tsx"
+import useIOTContext from "../hooks/useIOTContext.ts"
 
 import "../styles/TransmitContent.css"
 
@@ -20,15 +22,23 @@ function TransmitContent({ title }: TransmitContentType) {
   const requestFunc = model["requestFunc"]
 
   const [option, setOption] = useState(enumType[0])
-  const { setError } = useErrorContext()
+  const [spinner, setSpinner] = useState(false)
+  console.log(`option: ${option}`)
+  const { isLoading: isReceivingLoading } = useIOTContext()
+  const { error, setError } = useErrorContext()
 
-  const handleRequest = useCallback(async (o: any) => {
-    let isError: boolean = await requestFunc(option)
-    if (isError) {
-      setError(stringFormat(ErrorMessages.sending, `'${title}'`), ErrorType.sending)
-    }
+  const handleRequest = useCallback(async (o: string) => {
+    setSpinner(true)
+    await requestFunc(o)
+      .then((isError: boolean) => {
+        setSpinner(false)
+        if (isError) {
+          setError(stringFormat(ErrorMessages.sending, `'${title}'`), ErrorType.sending)
+        }
+      })
   }, [])
 
+  const disabled = spinner || !!error || isReceivingLoading
   const rows = model["rows"].map((row, i) => {
     const options = model["options"][i]
     const uniqueKeyPrefix = `${title}-${i}`
@@ -39,7 +49,7 @@ function TransmitContent({ title }: TransmitContentType) {
           <select
             className="select select-bordered w-full max-w-xs"
             value={option}
-            onChange={(e) => setOption(e.target.value)}
+            onChange={(e) => { /*console.log(e.target.value, typeof (e.target.value));*/ setOption(e.target.value) }}
           >
             {
               options.map((optionText, i) => (
@@ -48,9 +58,15 @@ function TransmitContent({ title }: TransmitContentType) {
             }
           </select>
         </td>
-        <td key={`${title}-btn`}>
-          <button className="btn-send" onClick={() => handleRequest(option)}>
-            <SvgPaperAirplane className="text-primary w-6 h-6" />
+        <td key={`${uniqueKeyPrefix}-d-btn`} className="btn-send-td">
+          <button className="btn-send" onClick={() => handleRequest(option)} disabled={disabled}>
+            {spinner ?
+              <LoadingSpinner />
+              :
+              <SvgPaperAirplane
+                className={`svg-paper-airline ${disabled && "text-neutral"}`}
+              />
+            }
           </button>
         </td>
       </tr>

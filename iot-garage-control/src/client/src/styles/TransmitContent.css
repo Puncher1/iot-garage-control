@@ -1,5 +1,14 @@
 .btn-send {
     box-shadow: none;
-    margin: 0;
-    height: 10%;
+    display: block;
+    margin: auto;
+}
+
+.btn-send:disabled {
+    cursor: not-allowed;
+    pointer-events: all !important;
+}
+
+.svg-paper-airline {
+    @apply text-primary w-6 h-6;
 }
