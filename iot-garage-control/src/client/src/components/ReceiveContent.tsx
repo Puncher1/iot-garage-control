@@ -2,7 +2,7 @@ import { IOTDataObjectType } from "../utils/types"
 import { receiveData } from "../models/dataModels"
 import useOnlineStatus from "../hooks/useOnlineStatus"
 import useIOTContext from "../hooks/useIOTContext"
-import useError from "../hooks/useError"
+import useError from "../hooks/useErrorContext"
 
 
 interface ReceiveContentType {

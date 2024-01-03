@@ -16,3 +16,9 @@ export interface ErrorContextType {
     setError: Function,
     removeError: Function
 }
+
+export interface RetryContextType {
+    retry: boolean,
+    setRetry: Function,
+    resetRetry: Function
+}

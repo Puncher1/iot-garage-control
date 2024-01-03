@@ -2,10 +2,10 @@ import { useEffect, useState } from "react"
 
 import { IOTDataObjectType } from "./../../utils/types"
 import { Server as ServerConst } from "../../utils/constants"
-import useError from "../../hooks/useError"
+import useError from "../../hooks/useErrorContext"
 import { ErrorMessages } from "../../utils/constants"
 import { ErrorType } from "../../utils/enums"
-import useRetryState from "../../hooks/useRetryState"
+import useRetryContext from "../../hooks/useRetryContext"
 
 
 const errorMsg = ErrorMessages.connection
@@ -13,7 +13,7 @@ const errorMsg = ErrorMessages.connection
 export function useIotData(): IOTDataObjectType {
     const [data, setData] = useState({})
     const [isLoading, setIsLoading] = useState(false)
-    const { retry, setRetry } = useRetryState()
+    const { retry, resetRetry } = useRetryContext()
     const { setError, removeError } = useError()
 
     let keepAliveTimer: number | undefined;
@@ -63,7 +63,7 @@ export function useIotData(): IOTDataObjectType {
 
     useEffect(() => {
         if (retry) {
-            setRetry(false)
+            resetRetry()
             window.addEventListener("online", reconnect)
             reconnect()
         }
