@@ -24,7 +24,7 @@ export default function ErrorBanner() {
         setError(ErrorMessages.offline, ErrorType.offline)
       }
     }
-  })
+  }, [])
 
   if (error) {
     let btnExtra = null
