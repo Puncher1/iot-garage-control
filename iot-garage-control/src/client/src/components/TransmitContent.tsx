@@ -23,7 +23,6 @@ function TransmitContent({ title }: TransmitContentType) {
 
   const [option, setOption] = useState(enumType[0])
   const [spinner, setSpinner] = useState(false)
-  console.log(`option: ${option}`)
   const { isLoading: isReceivingLoading } = useIOTContext()
   const { error, setError } = useErrorContext()
 
@@ -49,7 +48,7 @@ function TransmitContent({ title }: TransmitContentType) {
           <select
             className="select select-bordered w-full max-w-xs"
             value={option}
-            onChange={(e) => { /*console.log(e.target.value, typeof (e.target.value));*/ setOption(e.target.value) }}
+            onChange={(e) => { setOption(e.target.value) }}
           >
             {
               options.map((optionText, i) => (

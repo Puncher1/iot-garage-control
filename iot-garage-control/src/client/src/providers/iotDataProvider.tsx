@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-import { useIotData } from "../services/sse/main"
+import { useIotData } from "../services/sse"
 import IOTDataContext from "../contexts/iotDataContext"
 import RetryProvider from "./RetryProvider"
 

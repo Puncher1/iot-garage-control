@@ -1,4 +1,3 @@
-import { IOTDataObjectType } from "../utils/types"
 import { receiveData } from "../models/dataModels"
 import useOnlineStatus from "../hooks/useOnlineStatus"
 import useIOTContext from "../hooks/useIOTContext"

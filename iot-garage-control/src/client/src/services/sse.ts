@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
 
-import { IOTDataObjectType } from "./../../utils/types"
-import { Server as ServerConst } from "../../utils/constants"
-import useError from "../../hooks/useErrorContext"
-import { ErrorMessages } from "../../utils/constants"
-import { ErrorType } from "../../utils/enums"
-import useRetryContext from "../../hooks/useRetryContext"
+import { IOTDataObjectType } from "../utils/types"
+import { Server as ServerConst } from "../utils/constants"
+import useError from "../hooks/useErrorContext"
+import { ErrorMessages } from "../utils/constants"
+import { ErrorType } from "../utils/enums"
+import useRetryContext from "../hooks/useRetryContext"
 
 
 const errorMsg = ErrorMessages.connection

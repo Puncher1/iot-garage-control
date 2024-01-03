@@ -1,5 +1,5 @@
 import { GateControlOption, AirControlOption } from "../utils/enums"
-import { editGateControl, editAirControl } from "../services/api/client"
+import { editGateControl, editAirControl } from "../services/api"
 
 
 export interface ReceiveTitleValuesType {
