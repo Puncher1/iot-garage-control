@@ -1,9 +1,9 @@
 import { receiveData } from "../models/dataModels"
-import useOnlineStatus from "../hooks/useOnlineStatus"
 import useIOTContext from "../hooks/useIOTContext"
 import useError from "../hooks/useErrorContext"
 import SvgExclamationCircle from "../assets/exclamation-circle.svg?react"
 import LoadingSpinner from "../components/LoadingSpinner"
+import { ErrorType } from "../utils/enums"
 
 
 interface ReceiveContentType {
@@ -11,7 +11,6 @@ interface ReceiveContentType {
 }
 
 function ReceiveContent({ title }: ReceiveContentType) {
-  const isOnline = useOnlineStatus()
   const { data: iotData, isLoading } = useIOTContext()
   const { error } = useError()
 
@@ -30,7 +29,7 @@ function ReceiveContent({ title }: ReceiveContentType) {
     }
 
     let tdData: any
-    if (error || !isOnline) {
+    if (error && error.type != ErrorType.sending) {
       tdData = (
         <SvgExclamationCircle className="text-error w-6 h-6" />
       )

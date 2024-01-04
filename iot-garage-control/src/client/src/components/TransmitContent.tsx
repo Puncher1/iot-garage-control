@@ -25,7 +25,7 @@ function TransmitContent({ title }: TransmitContentType) {
   const { isLoading: isReceivingLoading } = useIOTContext()
   const { error, setError } = useErrorContext()
 
-  const handleRequest = useCallback(async (o: number) => {
+  const handleRequest = async (o: number) => {
     setSpinner(true)
     await requestFunc(o)
       .then((isError: boolean) => {
@@ -35,9 +35,9 @@ function TransmitContent({ title }: TransmitContentType) {
           setError(stringFormat(ErrorMessages.sending, `'${title}'`), ErrorType.sending)
         }
       })
-  }, [])
+  }
 
-  const disabled = spinner || !!error || isReceivingLoading
+  const disabled = spinner || (!!error && error.type != ErrorType.sending) || isReceivingLoading
   const rows = model["rows"].map((row, i) => {
     const options = model["options"][i]
     const uniqueKeyPrefix = `${title}-${i}`

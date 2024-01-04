@@ -3,7 +3,6 @@ import { useState } from "react"
 import { ErrorObjType } from "../utils/types"
 import ErrorContext from "../contexts/errorContext"
 import { ErrorType } from "../utils/enums"
-import useOnlineStatus from "../hooks/useOnlineStatus"
 import { ErrorMessages } from "../utils/constants"
 
 
@@ -14,7 +13,14 @@ interface ErrorProvParamsType {
 export default function ErrorProvider({ children }: ErrorProvParamsType) {
   const [_error, _setError] = useState<ErrorObjType | null>(null)
 
-  const removeError = () => _setError(null)
+  const removeError = (type: ErrorType) => {
+    if (!type) {
+      _setError(null)
+    }
+    else if (_error && type == _error.type) {
+      _setError(null)
+    }
+  }
   const setError = (message: string, type: ErrorType) => {
     _setError({ message, type })
   }

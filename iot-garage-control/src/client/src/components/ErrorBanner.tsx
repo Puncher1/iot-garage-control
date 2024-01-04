@@ -6,32 +6,39 @@ import useRetryContext from "../hooks/useRetryContext"
 import useOnlineStatus from "../hooks/useOnlineStatus"
 import { ErrorMessages } from "../utils/constants"
 import SvgExclamationCircle from "../assets/exclamation-circle.svg?react"
+import SvgXMark from "../assets/x-mark.svg?react"
 
 import "./../styles/ErrorBanner.css"
 
 
 export default function ErrorBanner() {
-  const { error, setError, removeError } = useErrorContext()
+  const { error, removeError } = useErrorContext()
   const { setRetry } = useRetryContext()
   const isOnline = useOnlineStatus()
 
-  useEffect(() => {
-    if (error) {
-      if (!isOnline && error.type != ErrorType.offline) {
-        setError(ErrorMessages.offline, ErrorType.offline)
-      }
-    }
-    else {
-      if (!isOnline) {
-        setError(ErrorMessages.offline, ErrorType.offline)
-      }
-    }
-  }, [])
+  if (error || !isOnline) {
+    let errorType: ErrorType = ErrorType.unexpected
+    let errorMessage: string = ErrorMessages.unexpected
 
-  if (error) {
+    if (!isOnline) {
+      errorType = ErrorType.offline
+      errorMessage = ErrorMessages.offline
+    }
+    else if (error) {
+      errorType = error.type
+      errorMessage = error.message
+    }
+
     let btnExtra = null
-    if (error.type == ErrorType.connection) {
-      btnExtra = <button className="btn btn-xs sm:btn-sm" onClick={() => { console.log("onClick"); setRetry() }}>Retry</button>
+    if (errorType == ErrorType.connection) {
+      btnExtra = <button className="btn btn-xs sm:btn-sm" onClick={() => setRetry()}>Retry</button>
+    }
+    else if (errorType == ErrorType.sending) {
+      btnExtra = (
+        <button className="btn-close">
+          <SvgXMark className="w-6 h-6" />
+        </button>
+      )
     }
 
     let bannerSizeClass   // TODO
@@ -39,9 +46,10 @@ export default function ErrorBanner() {
     return (
       <div role="alert" className={`error-banner`}>
         <SvgExclamationCircle className="w-8 h-8" />
-        <span className="error-message">{error.message}</span>
+        <span className="error-message">{errorMessage}</span>
         {btnExtra}
       </div>
     )
   }
+
 }
