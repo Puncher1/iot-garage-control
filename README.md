@@ -1,1 +1,36 @@
 # iot-garage-control
+
+Website hosted on an ESP-WROOM-32 controller to control a potential garage over it.
+
+## Website
+The website uses following stack:
+* React
+* Typescirpt
+* Tailwind-CSS (mixed with vanilla CSS)
+* daisyUI
+* Vite
+* axios (API client)
+
+### Setup
+1. Go to the client source: `cd client/src`
+2. Install all dependencies: `npm i`
+3. Run website in dev mode with `npm run dev` or build for production with `npm run build` (output dir: `./data` 
+
+<br>
+
+## Firmware
+Firmware is made with Arduino to simplify the making of the webserver.
+The webserver has following feautures:
+* Serving the website
+* API
+* SSE (Server-sent events)
+
+The data is sent via SSE to the website. The API handles POST requests to forward commands sent by the user.
+The communication to receive data and send commands from/to the main controler is done with UART.
+
+### Setup
+To flash the firmware onto the ESP32 controller, we use PlatformIO in Visual Studio Code. 
+
+1. Build website (see [Website Setup](#setup)
+2. Upload firmware: `PlatformIO > Upload`
+3. Upload data: `PlatformIO > Upload Filesystem Image`
