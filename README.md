@@ -1,7 +1,7 @@
 # iot-garage-control
 
 ## Introduction
-This project was for school. The goal was to create an IoT garage to control the garage over the internet. 
+This project was for school. The goal was to create an IoT garage control to control a potential garage over the internet. 
 To control this potential garge a website was created which displays the current data/states and allows the user to execute certain commands. 
 
 <br>
