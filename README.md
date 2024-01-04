@@ -45,4 +45,4 @@ To flash the firmware onto the ESP32 controller, we use PlatformIO in Visual Stu
 #### Note
 * The website runs locally, means you have to be in the same network as the ESP32.
 * The SSID and password of the WiFi can be set in `webserver.ccp`. 
-* The local IP can be changed with the `serverIP` parameter of the `WebServer` contructor (typically only the last number is changed + gateway should be changed accordingly in `webserver.cpp`)
+* The local IP can be changed with the `serverIP` parameter of the `WebServer` constructor (typically only the last number is changed + gateway should be changed accordingly in `webserver.cpp`)
