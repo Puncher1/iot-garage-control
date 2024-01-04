@@ -1,6 +1,10 @@
 # iot-garage-control
 
-Website hosted on an ESP-WROOM-32 controller to control a potential garage over it.
+## Introduction
+This project was for school. The goal was to create an IoT garage to control the garage over the internet. 
+To control this potential garge a website was created which displays the current data/states and allows the user to execute certain commands. 
+
+<br>
 
 ## Website
 The website uses following stack:
@@ -31,6 +35,6 @@ The communication to receive data and send commands from/to the main controler i
 ### Setup
 To flash the firmware onto the ESP32 controller, we use PlatformIO in Visual Studio Code. 
 
-1. Build website (see [Website Setup](#setup)
+1. Build website (see [Website Setup](#setup))
 2. Upload firmware: `PlatformIO > Upload`
 3. Upload data: `PlatformIO > Upload Filesystem Image`
