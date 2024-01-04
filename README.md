@@ -18,7 +18,7 @@ The website uses following stack:
 ### Setup
 1. Go to the client source: `cd client/src`
 2. Install all dependencies: `npm i`
-3. Run website in dev mode with `npm run dev` or build for production with `npm run build` (output dir: `./data` 
+3. Run website in dev mode with `npm run dev` or build for production with `npm run build` (output dir: `./data`)
 
 <br>
 
