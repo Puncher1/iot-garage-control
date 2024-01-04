@@ -16,6 +16,10 @@ export default function ErrorBanner() {
   const { setRetry } = useRetryContext()
   const isOnline = useOnlineStatus()
 
+  const handleCloseBtn = () => {
+    removeError(ErrorType.sending)
+  }
+
   if (error || !isOnline) {
     let errorType: ErrorType = ErrorType.unexpected
     let errorMessage: string = ErrorMessages.unexpected
@@ -35,7 +39,7 @@ export default function ErrorBanner() {
     }
     else if (errorType == ErrorType.sending) {
       btnExtra = (
-        <button className="btn-close">
+        <button className="btn-close" onClick={handleCloseBtn}>
           <SvgXMark className="w-6 h-6" />
         </button>
       )
