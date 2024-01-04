@@ -24,7 +24,7 @@ The website uses following stack:
 
 ## Firmware
 Firmware is made with Arduino to simplify the making of the webserver.
-The webserver has following feautures:
+The webserver has following features:
 * Serving the website
 * API
 * SSE (Server-sent events)
