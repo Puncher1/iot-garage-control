@@ -32,7 +32,7 @@ The webserver has following features:
 The data is sent via SSE to the website. The API handles POST requests to forward commands sent by the user.
 
 Another section is the board communication where the ESP32 controller communicates with the main controller via UART.
-This allows receiving data of the garage and send commands to control the garage.
+This allows receiving data of the garage and sending commands to control the garage.
 
 
 ### Setup
