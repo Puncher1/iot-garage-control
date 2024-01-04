@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 import { ErrorType } from "../utils/enums"
 import useErrorContext from "../hooks/useErrorContext"
@@ -16,44 +16,48 @@ export default function ErrorBanner() {
   const { setRetry } = useRetryContext()
   const isOnline = useOnlineStatus()
 
+  const [isDisplay, setIsDisplay] = useState(false)
+  const [commonError, setCommonError] = useState({ message: ErrorMessages.unexpected, type: ErrorType.unexpected })
+
+  useEffect(() => {
+    if (error || !isOnline) {
+      if (!isOnline) {
+        setCommonError({ message: ErrorMessages.offline, type: ErrorType.offline })
+      }
+      else if (error) {
+        setCommonError({ message: error.message, type: error.type })
+      }
+      setIsDisplay(true)
+    }
+    else {
+      setIsDisplay(false)
+    }
+  }, [error, isOnline])
+
   const handleCloseBtn = () => {
     removeError(ErrorType.sending)
   }
 
-  if (error || !isOnline) {
-    let errorType: ErrorType = ErrorType.unexpected
-    let errorMessage: string = ErrorMessages.unexpected
-
-    if (!isOnline) {
-      errorType = ErrorType.offline
-      errorMessage = ErrorMessages.offline
-    }
-    else if (error) {
-      errorType = error.type
-      errorMessage = error.message
-    }
-
-    let btnExtra = null
-    if (errorType == ErrorType.connection) {
-      btnExtra = <button className="btn btn-xs sm:btn-sm" onClick={() => setRetry()}>Retry</button>
-    }
-    else if (errorType == ErrorType.sending) {
-      btnExtra = (
-        <button className="btn-close" onClick={handleCloseBtn}>
-          <SvgXMark className="w-6 h-6" />
-        </button>
-      )
-    }
-
-    let bannerSizeClass   // TODO
-
-    return (
-      <div role="alert" className={`error-banner`}>
-        <SvgExclamationCircle className="w-8 h-8" />
-        <span className="error-message">{errorMessage}</span>
-        {btnExtra}
-      </div>
+  let btnExtra = null
+  if (commonError.type == ErrorType.connection) {
+    btnExtra = <button className="btn btn-xs sm:btn-sm" onClick={() => setRetry()}>Retry</button>
+  }
+  else if (commonError.type == ErrorType.sending) {
+    btnExtra = (
+      <button className="btn-close" onClick={handleCloseBtn}>
+        <SvgXMark className="w-6 h-6" />
+      </button>
     )
+    setTimeout(handleCloseBtn, 4 * 1000)
   }
 
+  return (
+    <div role="alert"
+      className={`error-banner transition-all duration-200 ${isDisplay ? "opacity-100 visible" : "opacity-0 invisible"}`}
+    >
+      <SvgExclamationCircle className="w-8 h-8" />
+      <span className="error-message">{commonError.message}</span>
+      {btnExtra}
+    </div>
+  )
 }

@@ -3,12 +3,8 @@
 **TransmitContent**
 * [x] Disable send btn, when server connection is pending (loading)
 * [x] Replace send btn with loading icon, when sending
-* [ ] Success banner
+* [x] Replace send btn with success icon
 
 **ErrorBanner**
-* [ ] X icon to close sending error
-* [ ] When sending error: Hide after x seconds
-
-**SuccessBanner**
-* [ ] X icon to close success
-* [ ] Hide after x seconds
+* [x] X icon to close sending error
+* [x] When sending error: Hide after x seconds
