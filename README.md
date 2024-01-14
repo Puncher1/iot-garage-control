@@ -12,6 +12,7 @@ The website uses following stack:
 * Typescirpt
 * Tailwind-CSS (mixed with vanilla CSS)
 * daisyUI
+* Heroicons
 * Vite
 * axios (API client)
 
