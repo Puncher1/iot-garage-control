@@ -23,7 +23,7 @@ void Routes::gateControl(AsyncWebServerRequest *request)
 {
     /*
     POST Params:
-        status:     0: Successful, 1: Paused, 2: Closed
+        status:     0: Open, 1: Paused, 2: Closed
     */
 
     if (request->hasParam("status", true))
