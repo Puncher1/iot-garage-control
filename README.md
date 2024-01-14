@@ -2,7 +2,7 @@
 
 ## Introduction
 This project was for school. The goal was to create an IoT garage control to control a potential garage over the internet. 
-To control this potential garge a website was created which displays the current data/states and allows the user to execute certain commands. 
+To control this potential garage a website was created which displays the current data/states and allows the user to execute certain commands. 
 
 <br>
 
