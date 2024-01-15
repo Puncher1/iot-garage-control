@@ -37,7 +37,7 @@ This allows receiving data of the garage and sending commands to control the gar
 
 
 ### Setup
-To flash the firmware onto the ESP32 controller, we use PlatformIO in Visual Studio Code. 
+To flash the firmware onto the ESP32 controller, we use PlatformIO in Visual Studio Code (you can install it from the Extensions in VSC. It should automatically install everything needed). 
 
 1. Build website (see [Website Setup](#setup))
 2. Upload firmware: `PlatformIO > Upload`
