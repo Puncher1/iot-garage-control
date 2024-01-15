@@ -14,6 +14,7 @@ void BoardCom::update()
     if (tempPackage.isReady) {
         lastPackage = tempPackage;
         tempPackage.isReady = false;
+        this->request(CMD::UPDATE);
     }
 }
 
