@@ -28,9 +28,12 @@ function TransmitContent({ title }: TransmitContentType) {
   const { isLoading: isReceivingLoading } = useIOTContext()
   const { error, setError } = useErrorContext()
 
-  const handleRequest = async (o: number) => {
+  const handleRequest = async (o: number, i: number) => {
+    const optionStr = model.options[i][o]
+    const dataNum = model.dataMap.status[optionStr]
+
     setSpinner(true)
-    await requestFunc(o)
+    await requestFunc(dataNum)
       .then((isError: boolean) => {
         setSpinner(false)
 
@@ -57,7 +60,7 @@ function TransmitContent({ title }: TransmitContentType) {
   }
 
   const rows = model["rows"].map((row, i) => {
-    const options = model["options"][i]
+    const options = model.options[i]
     const uniqueKeyPrefix = `${title}-${i}`
     return (
       <tr key={uniqueKeyPrefix}>
@@ -78,7 +81,7 @@ function TransmitContent({ title }: TransmitContentType) {
         <td key={`${uniqueKeyPrefix}-d-btn`} className="btn-send-td">
           <button
             className="btn-send"
-            onClick={() => handleRequest(option)}
+            onClick={() => handleRequest(option, i)}
             disabled={disabled}>
             {btnIcon}
           </button>

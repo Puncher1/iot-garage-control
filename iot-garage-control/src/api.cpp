@@ -1,19 +1,20 @@
 #include <stdlib.h>
 #include "api.hpp"
 #include "sse.hpp"
+#include "boardCom.hpp"
 
 
 boolean handleGateStatus(String value) {
-    if (value == "0" || value == "1" || value == "2") {
-        // setGateStatus(value.toInt());
+    if (value == "3" || value == "4") {
+        BoardCom::gateRequest(value.toInt());
         return true;
     }
     return false;
 }
 
 boolean handleAirStatus(String value) {
-    if (value == "0" || value == "1" || value == "2" || value == "3" || value == "4") {
-        // setAirStatus(value.toInt());
+    if (value == "5" || value == "6" || value == "7" || value == "8" || value == "9") {
+        BoardCom::acRequest(value.toInt());
         return true;
     }
     return false;
@@ -42,7 +43,7 @@ void Routes::gateControl(AsyncWebServerRequest *request)
                 }
                 else
                 {
-                    request->send(400, "application/json", "{\"message\":\"'status' must be one of 0, 1, 2\"}");     // Bad Request
+                    request->send(400, "application/json", "{\"message\":\"'status' must be one of 3, 4\"}");     // Bad Request
                     return;
                 }
             }
@@ -83,7 +84,7 @@ void Routes::airControl(AsyncWebServerRequest *request)
                 }
                 else
                 {
-                    request->send(400, "application/json", "{\"message\":\"'status' must be one of 0, 1, 2, 3, 4\"}");     // Bad Request
+                    request->send(400, "application/json", "{\"message\":\"'status' must be one of 5, 6, 7, 8, 9\"}");     // Bad Request
                     return;
                 }
             }
