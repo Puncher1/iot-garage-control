@@ -17,25 +17,20 @@ public:
         bool isAir_ok;
         int8_t airControl;          // %
     } lastPackage;
-    
-    enum class CMD {                // Commands sent over UART
-        ERROR,
-        OPEN_GATE,
-        AIR_CTRL,
-        UPDATE
-    };
-
     void update();
-    void request(CMD cmd);
     
 
 private:
-
-    enum class RX_decode {          // Decode received package
+    enum class UART_codec {          // Decode received package
         BAD = 1,
         OK,
         GATE_OPEN,
-        GATE_CLOSED
+        GATE_CLOSED,
+        AC0,
+        AC25,
+        AC50,
+        AC75,
+        AC100
     };
 
     enum class RX_package {
@@ -47,12 +42,20 @@ private:
         AIR_CONTROL,                // bool
         CLOSE_COM
     } next;
+    
+    enum class CMD {                // Commands sent over UART
+        ERROR,
+        OPEN_GATE,
+        AIR_CTRL,
+        UPDATE
+    };
 
     RX tempPackage;
 
     void init();
     void receive();
     void comError();
+    void request(CMD cmd);
 };
 
 
