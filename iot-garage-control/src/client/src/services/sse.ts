@@ -1,31 +1,35 @@
 import { useEffect, useState } from "react"
 
-import { IOTDataObjectType } from "../utils/types"
-import { Server as ServerConst } from "../utils/constants"
+import { ErrorContextType, IOTDataObjectType } from "../utils/types"
+import { Server as ServerConst, WarningMessages, ErrorMessages } from "../utils/constants"
 import useErrorContext from "../hooks/useErrorContext"
-import { ErrorMessages } from "../utils/constants"
 import { ErrorType } from "../utils/enums"
 import useRetryContext from "../hooks/useRetryContext"
 
+
+interface LocalErrorType {
+    type: ErrorType,
+    message: ErrorMessages,
+}
 
 export function useIotData(): IOTDataObjectType {
     const [data, setData] = useState({})
     const [isLoading, setIsLoading] = useState(false)
     const { retry, resetRetry } = useRetryContext()
-    const [localError, setLocalError] = useState(false)
-    const { setError, removeError } = useErrorContext()
+    const [localError, setLocalError] = useState<LocalErrorType | null>(null)
+    const { setError, removeError }: ErrorContextType = useErrorContext()
 
     let keepAliveTimer: number | undefined;
     let eventSource: EventSource
 
     const reconnect = () => {
         console.log("reconnect")
-        setLocalError(false)
+        setLocalError(null)
         connect()
     }
 
     const eventReceived = () => {
-        setLocalError(false)
+        setLocalError(null)
         setIsLoading(false)
 
         clearTimeout(keepAliveTimer)
@@ -39,13 +43,13 @@ export function useIotData(): IOTDataObjectType {
     }
 
     const connect = () => {
-        if (eventSource) {
+        if (eventSource && eventSource.OPEN) {
             close()
         }
         eventSource = new EventSource(`${ServerConst.sseBaseURL}/data`)
 
-        eventSource.addEventListener("message", (_) => {
-            eventReceived()
+        eventSource.addEventListener("message", (message) => {
+            console.log(message.data)
         }, false)
 
         eventSource.addEventListener("data", (event) => {
@@ -55,7 +59,12 @@ export function useIotData(): IOTDataObjectType {
 
         eventSource.onerror = (err) => {
             console.log(err)
-            setLocalError(true)
+            if (err.data === "notReady") {
+                setLocalError({ type: ErrorType.dataNotReady, message: ErrorMessages.dataNotReady })
+            }
+            else {
+                setLocalError({ type: ErrorType.connection, message: ErrorMessages.connection })
+            }
             close()
         }
     }
@@ -71,7 +80,7 @@ export function useIotData(): IOTDataObjectType {
 
     useEffect(() => {
         if (localError) {
-            setError(ErrorMessages.connection, ErrorType.connection)
+            setError(localError.message, localError.type)
         }
         else {
             removeError()

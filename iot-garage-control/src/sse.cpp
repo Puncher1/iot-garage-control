@@ -11,7 +11,7 @@ void SSEConnectEvent(AsyncEventSourceClient* client)
 
 void SSEHandler(AsyncEventSource* eventSource, BoardCom::RX data) 
 {  
-    if (data.isReady) 
+    if (true)   // if (data.isReady)
     {
         DynamicJsonDocument jsonObj(1024);
         jsonObj["auth"]["last_login"] = data.lastLogin;
@@ -26,6 +26,6 @@ void SSEHandler(AsyncEventSource* eventSource, BoardCom::RX data)
     }
     else 
     {
-        eventSource->send("not_ready", "error", millis());
+        eventSource->send("notReady", "error", millis());
     }
 }
