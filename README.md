@@ -21,6 +21,8 @@ The website uses following stack:
 2. Install all dependencies: `npm i`
 3. Run website in dev mode with `npm run dev` or build for production with `npm run build` (output dir: `./data`)
 
+**Use the `testing` branch to get dummy data from the server.**
+
 <br>
 
 ## Firmware
