@@ -6,7 +6,6 @@ export class Server {
 export class ErrorMessages {
     static unexpected = "An unexpected error occurred."
     static offline = "You're offline! Make sure you have an internet connection."
-    static connection = "Connection to server failed, please try again."
+    static connection = "Receiving data failed, please try again."
     static sending = "Submitting form of {0} failed, please try again."
-    static dataNotReady = "Data not ready yet, please be patient."
 }

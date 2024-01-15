@@ -59,12 +59,7 @@ export function useIotData(): IOTDataObjectType {
 
         eventSource.onerror = (err) => {
             console.log(err)
-            if (err.data === "notReady") {
-                setLocalError({ type: ErrorType.dataNotReady, message: ErrorMessages.dataNotReady })
-            }
-            else {
-                setLocalError({ type: ErrorType.connection, message: ErrorMessages.connection })
-            }
+            setLocalError({ type: ErrorType.connection, message: ErrorMessages.connection })
             close()
         }
     }
