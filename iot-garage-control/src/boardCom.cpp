@@ -49,7 +49,7 @@ void BoardCom::receive() {                      // statemachine to process recie
     case RX_package::LOGIN_TRY:
         if (Serial.available() >= DATE_LENGTH + 1) {
             Serial.readBytes(this->tempPackage.lastLogin, DATE_LENGTH);
-            if(Serial.read() == '\0') { // check if string got terminated
+            if(Serial.read() == '\0') {         // check if string got terminated
                 this->next = RX_package::DOOR;
             }
             else {this->comError();}

@@ -2,7 +2,7 @@
 
 #include <string>
 
-#define DATE_LENGTH 9   // length of the date in bytes
+#define DATE_LENGTH 16   // length of the date in bytes
 
 
 class BoardCom{
@@ -10,17 +10,17 @@ public:
     BoardCom();         // initiate communication
 
     struct RX {                     // enum to store the received data
-        bool isReady = false;
-        char lastLogin[DATE_LENGTH];
-        bool isGate_open;
-        bool isCO2_ok;
-        bool isAir_ok;
-        int8_t airControl;          // %
+        bool isReady = true;
+        char lastLogin[DATE_LENGTH];    // "%d %m %Y %H:%M"
+        bool isGate_open = true;
+        bool isCO2_ok = false;
+        bool isAir_ok = false;
+        int8_t airControl = 7;          // %
     } lastPackage;
     void update();
 
-    void gateRequest(int request);
-    void acRequest(int request);
+    static void gateRequest(int request);
+    static void acRequest(int request);
     
 
 private:
