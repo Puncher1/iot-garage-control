@@ -34,6 +34,7 @@ void setup()
 
 void loop()
 {
+    boardCom->update();
     if (eventWait_pv >= eventWait_cyc) {
         eventWait_pv = 0;
         SSEHandler(server->events, boardCom->lastPackage);
