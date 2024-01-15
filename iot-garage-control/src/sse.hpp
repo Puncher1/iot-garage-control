@@ -7,7 +7,5 @@
 
 using namespace std;
 
-void setGateStatus(int status);
-void setAirStatus(int status);
 void SSEConnectEvent(AsyncEventSourceClient* client);
-void SSEHandler(AsyncEventSource* eventSource, BoardCom::RX* data);
+void SSEHandler(AsyncEventSource* eventSource, BoardCom::RX data);

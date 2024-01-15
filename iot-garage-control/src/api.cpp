@@ -5,7 +5,7 @@
 
 boolean handleGateStatus(String value) {
     if (value == "0" || value == "1" || value == "2") {
-        setGateStatus(value.toInt());
+        // setGateStatus(value.toInt());
         return true;
     }
     return false;
@@ -13,7 +13,7 @@ boolean handleGateStatus(String value) {
 
 boolean handleAirStatus(String value) {
     if (value == "0" || value == "1" || value == "2" || value == "3" || value == "4") {
-        setAirStatus(value.toInt());
+        // setAirStatus(value.toInt());
         return true;
     }
     return false;
