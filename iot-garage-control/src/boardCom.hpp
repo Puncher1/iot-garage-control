@@ -10,12 +10,12 @@ public:
     BoardCom();         // initiate communication
 
     struct RX {                     // enum to store the received data
-        bool isReady = true;
+        bool isReady = false;
         char lastLogin[DATE_LENGTH];    // "%d %m %Y %H:%M"
-        bool isGate_open = true;
-        bool isCO2_ok = false;
-        bool isAir_ok = false;
-        int8_t airControl = 7;          // %
+        bool isGate_open;
+        bool isCO2_ok;
+        bool isAir_ok;
+        int8_t airControl;          // %
     } lastPackage;
     void update();
 
