@@ -33,9 +33,8 @@ export const receiveData: ReceiveDataType = {
         dataKeys: ["status"],
         dataMap: {
             "status": {
-                0: "error",
-                3: "Geöffnet",
-                4: "Geschlossen"
+                0: "Geschlossen",
+                1: "Geöffnet"
             }
         }
     },
@@ -45,9 +44,8 @@ export const receiveData: ReceiveDataType = {
         dataKeys: ["status"],
         dataMap: {
             "status": {
-                0: "error",
-                1: "Schlecht",
-                2: "OK",
+                0: "Schlecht",
+                1: "OK"
             }
         }
     },
@@ -57,9 +55,8 @@ export const receiveData: ReceiveDataType = {
         dataKeys: ["status"],
         dataMap: {
             "status": {
-                0: "error",
-                1: "Schlecht",
-                2: "OK"
+                0: "Schlecht",
+                1: "OK"
             }
         }
     },
@@ -69,7 +66,6 @@ export const receiveData: ReceiveDataType = {
         dataKeys: ["status"],
         dataMap: {
             "status": {
-                0: "error",
                 5: "0%",
                 6: "25%",
                 7: "50%",
