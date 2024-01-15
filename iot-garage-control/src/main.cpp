@@ -36,7 +36,7 @@ void loop()
 {
     if (eventWait_pv >= eventWait_cyc) {
         eventWait_pv = 0;
-        SSEHandler(server->events);
+        SSEHandler(server->events, boardCom.lastPackage);
     }
     else {
         eventWait_pv++;
