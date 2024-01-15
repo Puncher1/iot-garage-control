@@ -4,15 +4,17 @@
 #include "api.hpp"
 #include "sse.hpp"
 
+#include "boardCom.hpp"
 
 WebServer* server;
 uint16_t eventWait_cyc = 1000;  // in ms
 uint16_t eventWait_pv = 0;      // in ms
+BoardCom* boardCom;
+
 
 void initWebserver()
 {
-    IPAddress localIP(172, 20, 10, 2);
-    server = new WebServer(localIP, 80);
+    server = new WebServer(IPAddress(172, 20, 10, 2), 80);
     // Website serving
     server->serve("/", true, "index.html");
     // API
@@ -26,8 +28,8 @@ void initWebserver()
 
 void setup()
 {
-    Serial.begin(9600);
     initWebserver();
+    boardCom = new BoardCom();
 }
 
 void loop()
