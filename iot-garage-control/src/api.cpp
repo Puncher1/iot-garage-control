@@ -3,10 +3,12 @@
 #include "sse.hpp"
 #include "boardCom.hpp"
 
+extern void setGateStatus(int);
+extern void setAirStatus(int);
 
 boolean handleGateStatus(String value) {
     if (value == "3" || value == "4") {
-        BoardCom::gateRequest(value.toInt());
+        setGateStatus(value.toInt());
         return true;
     }
     return false;
@@ -14,7 +16,7 @@ boolean handleGateStatus(String value) {
 
 boolean handleAirStatus(String value) {
     if (value == "5" || value == "6" || value == "7" || value == "8" || value == "9") {
-        BoardCom::acRequest(value.toInt());
+        setAirStatus(value.toInt());
         return true;
     }
     return false;

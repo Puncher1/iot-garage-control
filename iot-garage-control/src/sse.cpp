@@ -1,6 +1,26 @@
 #include "sse.hpp"
 
 
+int gateStatus = 0;
+int airStatus = 5;
+
+void setGateStatus(int status)
+{   
+    if (status == 3) 
+    {
+        gateStatus = 1;
+    }
+    else 
+    {
+        gateStatus = 0;
+    }
+}
+
+void setAirStatus(int status) 
+{
+    airStatus = status;
+}
+
 void SSEConnectEvent(AsyncEventSourceClient* client) 
 {
     if(client->lastId()){
@@ -11,14 +31,14 @@ void SSEConnectEvent(AsyncEventSourceClient* client)
 
 void SSEHandler(AsyncEventSource* eventSource, BoardCom::RX data) 
 {  
-    if (data.isReady)
+    if (true)
     {
         DynamicJsonDocument jsonObj(1024);
-        jsonObj["auth"]["last_login"] = data.lastLogin;
-        jsonObj["gate_control"]["status"] = static_cast<int>(data.isGate_open);
-        jsonObj["co2_meas"]["status"] = static_cast<int>(data.isCO2_ok);
-        jsonObj["air_meas"]["status"] = static_cast<int>(data.isAir_ok);
-        jsonObj["air_control"]["status"] = data.airControl;
+        jsonObj["auth"]["last_login"] = "10.10.3049";
+        jsonObj["gate_control"]["status"] = gateStatus;
+        jsonObj["co2_meas"]["status"] = 0;
+        jsonObj["air_meas"]["status"] = 0;
+        jsonObj["air_control"]["status"] = airStatus;
 
         String jsonString;
         serializeJson(jsonObj, jsonString);
