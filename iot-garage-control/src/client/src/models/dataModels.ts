@@ -13,6 +13,7 @@ interface TransmitTitleValuesType {
     route: string,
     paramKeys: string[],
     options: string[][],
+    dataMap: Record<string, Record<string, number>>
     requestFunc: (_: any) => Promise<boolean>,
 }
 
@@ -21,15 +22,10 @@ type TransmitDataType = Record<string, TransmitTitleValuesType>
 
 export const receiveData: ReceiveDataType = {
     "Authentifizierung": {
-        rows: ["Letztes Login", "Status"],
+        rows: ["Letztes Login"],
         dataHeadKey: "auth",
-        dataKeys: ["last_login", "status"],
-        dataMap: {
-            "status": {
-                0: "Erfolgreich",
-                1: "Fehlgeschlagen"
-            }
-        }
+        dataKeys: ["last_login"],
+        dataMap: {}
     },
     "Torsteuerung": {
         rows: ["Status"],
@@ -37,9 +33,9 @@ export const receiveData: ReceiveDataType = {
         dataKeys: ["status"],
         dataMap: {
             "status": {
-                0: "Geöffnet",
-                1: "Pausiert",
-                2: "Geschlossen"
+                0: "error",
+                3: "Geöffnet",
+                4: "Geschlossen"
             }
         }
     },
@@ -49,8 +45,9 @@ export const receiveData: ReceiveDataType = {
         dataKeys: ["status"],
         dataMap: {
             "status": {
-                0: "OK",
-                1: "Schlecht"
+                0: "error",
+                1: "Schlecht",
+                2: "OK",
             }
         }
     },
@@ -60,8 +57,9 @@ export const receiveData: ReceiveDataType = {
         dataKeys: ["status"],
         dataMap: {
             "status": {
-                0: "OK",
-                1: "Schlecht"
+                0: "error",
+                1: "Schlecht",
+                2: "OK"
             }
         }
     },
@@ -71,11 +69,12 @@ export const receiveData: ReceiveDataType = {
         dataKeys: ["status"],
         dataMap: {
             "status": {
-                0: "0%",
-                1: "25%",
-                2: "50%",
-                3: "75%",
-                4: "100%"
+                0: "error",
+                5: "0%",
+                6: "25%",
+                7: "50%",
+                8: "75%",
+                9: "100%"
             }
         }
     },
@@ -86,7 +85,13 @@ export const transmitData: TransmitDataType = {
         rows: ["Status"],
         route: "/gate-control",
         paramKeys: ["status"],
-        options: [["Öffnen", "Pausieren", "Schliessen"]],
+        options: [["Öffnen", "Schliessen"]],
+        dataMap: {
+            "status": {
+                "Öffnen": 3,
+                "Schliessen": 4
+            }
+        },
         requestFunc: editGateControl,
     },
     "Lüftungssteuerung": {
@@ -94,6 +99,15 @@ export const transmitData: TransmitDataType = {
         route: "/air-control",
         paramKeys: ["status"],
         options: [["0%", "25%", "50%", "75%", "100%"]],
+        dataMap: {
+            "status": {
+                "0%": 5,
+                "25%": 6,
+                "50%": 7,
+                "75%": 8,
+                "100%": 9
+            }
+        },
         requestFunc: editAirControl,
     },
 }
