@@ -83,7 +83,7 @@ export const transmitData: TransmitDataType = {
         paramKeys: ["status"],
         options: [["Öffnen", "Schliessen"]],
         dataMap: {
-            "status": {
+            status: {
                 "Öffnen": 3,
                 "Schliessen": 4
             }
@@ -96,7 +96,7 @@ export const transmitData: TransmitDataType = {
         paramKeys: ["status"],
         options: [["0%", "25%", "50%", "75%", "100%"]],
         dataMap: {
-            "status": {
+            status: {
                 "0%": 5,
                 "25%": 6,
                 "50%": 7,
